@@ -1,0 +1,12 @@
+{
+    "env": {
+        "CHANNEL_ACCESS_TOKEN": {
+            "description": "LINE bot Channel access token",
+            "required": true
+        },
+        "CHANNEL_SECRET": {
+            "description": "LINE bot Channel secret",
+            "required": true
+        }
+    }
+}
