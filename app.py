@@ -22,9 +22,8 @@ app = Flask(__name__)
 line_bot_api = LineBotApi("1656508945")
 handler = WebhookHandler("368c3211efa65a6432986479092ce6d3")
 
-app.route("/", methods=["GET", "POST"])
 
-
+@app.route("/", methods=["GET", "POST"])
 def callback():
 
     if request.method == "GET":
