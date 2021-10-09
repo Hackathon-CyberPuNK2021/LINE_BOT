@@ -1,3 +1,4 @@
+from bs4.element import TemplateString
 from flask import Flask, abort, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -43,35 +44,40 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     get_message = event.message.text
-    if get_message == 'Hi':
-        reply = TextSendMessage(text='Hi')
+
+    def text_reply(content):
+        reply = TextSendMessage(text=content)
         line_bot_api.reply_message(event.reply_token, reply)
 
-    if get_message == 'test':
-        line_bot_api.reply_message(  # 回復傳入的訊息文字
-            event.reply_token,
-            TemplateSendMessage(
-                alt_text='Buttons template',
-                template=ButtonsTemplate(
-                    title='功能選單',
-                    text='請選擇功能',
-                    actions=[
-                        MessageTemplateAction(
-                            label='func1',
-                            text='購買商品',
-                            data='A&func1'
-                        ),
-                        MessageTemplateAction(
-                            label='func2',
-                            text='快速上架',
-                            data='A&func2'
-                        ),
-                        MessageTemplateAction(
-                            label='func3',
-                            text='物流追蹤',
-                            data='A&func3'
-                        )
-                    ]
+    if isinstance(event, MessageEvent):
+        if get_message == 'test':
+            line_bot_api.reply_message(  # 回復傳入的訊息文字
+                event.reply_token,
+                TemplateSendMessage(
+                    alt_text='Buttons template',
+                    template=ButtonsTemplate(
+                        title='功能選單',
+                        text='請選擇功能',
+                        actions=[
+                            MessageTemplateAction(
+                                label='購買商品',
+                                text='購買商品',
+                                data='A&func1'
+                            ),
+                            MessageTemplateAction(
+                                label='快速上架',
+                                text='快速上架',
+                                data='A&func2'
+                            ),
+                            MessageTemplateAction(
+                                label='物流追蹤',
+                                text='物流追蹤',
+                                data='A&func3'
+                            )
+                        ]
+                    )
                 )
             )
-        )
+    elif isinstance(event, PostbackEvent):
+        if event.postback.data == "A&func1":  # 如果回傳值為「購買商品」
+            text_reply('請輸入關鍵字:')
