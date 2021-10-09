@@ -46,3 +46,32 @@ def handle_message(event):
     if get_message == 'Hi':
         reply = TextSendMessage(text='Hi')
         line_bot_api.reply_message(event.reply_token, reply)
+
+    if get_message == 'test':
+        line_bot_api.reply_message(  # 回復傳入的訊息文字
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='功能選單',
+                    text='請選擇功能',
+                    actions=[
+                        MessageTemplateAction(
+                            label='func1',
+                            text='購買商品',
+                            data='A&func1'
+                        ),
+                        MessageTemplateAction(
+                            label='func2',
+                            text='快速上架',
+                            data='A&func2'
+                        ),
+                        MessageTemplateAction(
+                            label='func3',
+                            text='物流追蹤',
+                            data='A&func3'
+                        )
+                    ]
+                )
+            )
+        )
