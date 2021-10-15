@@ -53,7 +53,7 @@ def handle_message(event):
         if get_message == 'test':
             line_bot_api.reply_message(  # 回復傳入的訊息文字
                 event.reply_token,
-                TemplateSendMessage(
+                TemplateSendMessage(  # 選單
                     alt_text='Buttons template',
                     template=ButtonsTemplate(
                         title='功能選單',
