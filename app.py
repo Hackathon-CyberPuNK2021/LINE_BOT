@@ -118,9 +118,9 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, interface)
     else:
-        textList = ['叫出選單的指令是「Hi」喔', '0']  # 看要不要加笑話之類的
+        textList = ['叫出選單的指令是「Hi」喔']  # 看要不要加笑話之類的
         text = random.choice(textList)
-        line_bot_api.reply_message(event.reply_token, text)
+        text_reply(text, event)
 
 
 @handler.add(PostbackEvent)  # Postback的部分
