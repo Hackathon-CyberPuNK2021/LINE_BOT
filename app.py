@@ -51,7 +51,6 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, reply)
 
     if isinstance(event, MessageEvent):
-        # if get_message == 'test':
         interface = FlexSendMessage(
             alt_text='test',
             contents={
@@ -119,4 +118,4 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, interface)
     elif isinstance(event, PostbackEvent):
         if event.postback.data == "A&func1":  # 如果回傳值為「購買商品」
-            text_reply('請輸入關鍵字:')
+            text_reply('func1')
