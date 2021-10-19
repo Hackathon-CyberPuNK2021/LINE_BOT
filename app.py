@@ -51,7 +51,6 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, reply)
 
     if isinstance(event, MessageEvent):
-        text_reply("ji")
         # if get_message == 'test':
         interface = FlexSendMessage(
             alt_text='test',
