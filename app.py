@@ -18,6 +18,7 @@ from linebot.models import (MessageEvent,
                             PostbackEvent,
                             PostbackTemplateAction)
 import os
+import random
 
 app = Flask(__name__)
 
@@ -47,77 +48,82 @@ def text_reply(content, event):
     line_bot_api.reply_message(event.reply_token, reply)
 
 
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
-    #get_message = event.message.text
-    interface = FlexSendMessage(
-        alt_text='test',
-        contents={
-            "type": "bubble",
-            "hero": {
-                "type": "image",
-                "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
-                "size": "full",
-                "aspectRatio": "20:13",
-                "aspectMode": "cover",
-                "action": {
-                    "type": "uri",
-                    "uri": "http://linecorp.com/"
-                }
-            },
-            "body": {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                    {
-                        "type": "text",
-                        "text": "功能選單",
-                        "weight": "bold",
-                        "size": "xl"
+    get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
+    if get_message == 'Hi':
+        interface = FlexSendMessage(
+            alt_text='Hi',  # 在聊天室外面看到的文字訊息
+            contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": "http://linecorp.com/"
                     }
-                ]
-            },
-            "footer": {
-                "type": "box",
-                "layout": "vertical",
-                "spacing": "sm",
-                "contents": [
-                    {
-                        "type": "button",
-                        "action": {
-                            "type": "postback",
-                            "label": "下單/上架",
-                            "data": "A&func1"
-                        },
-                        "style": "primary"
-                    },
-                    {
-                        "type": "button",
-                        "style": "secondary",
-                        "action": {
-                            "type": "postback",
-                            "label": "線上比價",
-                            "data": "A&func2"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "功能選單",
+                            "weight": "bold",
+                            "size": "xl"
                         }
-                    },
-                    {
-                        "type": "button",
-                        "action": {
-                            "type": "postback",
-                            "label": "物流追蹤",
-                            "data": "A&func3"
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "action": {
+                                "type": "postback",
+                                "label": "下單/上架",
+                                "data": "A&func1"
+                            },
+                            "style": "primary"
                         },
-                        "style": "secondary"
-                    }
-                ],
-                "flex": 0
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "postback",
+                                "label": "線上比價",
+                                "data": "A&func2"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "action": {
+                                "type": "postback",
+                                "label": "物流追蹤",
+                                "data": "A&func3"
+                            },
+                            "style": "secondary"
+                        }
+                    ],
+                    "flex": 0
+                }
             }
-        }
-    )
-    line_bot_api.reply_message(event.reply_token, interface)
+        )
+        line_bot_api.reply_message(event.reply_token, interface)
+    else:
+        textList = ['叫出選單的指令是「Hi」喔']  # 看要不要加笑話之類的
+        text = random.choice(textList)
+        line_bot_api.reply_message(event.reply_token, text)
 
 
-@handler.add(PostbackEvent)
+@handler.add(PostbackEvent)  # Postback的部分
 def handle_postback(event):
     data = event.postback.data
     text_reply(data, event)
