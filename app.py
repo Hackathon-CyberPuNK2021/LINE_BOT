@@ -12,6 +12,7 @@ from linebot.models import (MessageEvent,
                             StickerSendMessage,
                             ImagemapSendMessage,
                             TemplateSendMessage,
+                            FlexSendMessage,
                             ButtonsTemplate,
                             MessageTemplateAction,
                             PostbackEvent,
@@ -50,34 +51,71 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, reply)
 
     if isinstance(event, MessageEvent):
-        if get_message == 'test':
-            line_bot_api.reply_message(  # 回復傳入的訊息文字
-                event.reply_token,
-                TemplateSendMessage(  # 選單
-                    alt_text='Buttons template',
-                    template=ButtonsTemplate(
-                        title='功能選單',
-                        text='請選擇功能',
-                        actions=[
-                            MessageTemplateAction(
-                                label='購買商品',
-                                text='購買商品',
-                                data='A&func1'
-                            ),
-                            MessageTemplateAction(
-                                label='快速上架',
-                                text='快速上架',
-                                data='A&func2'
-                            ),
-                            MessageTemplateAction(
-                                label='物流追蹤',
-                                text='物流追蹤',
-                                data='A&func3'
-                            )
-                        ]
-                    )
-                )
-            )
+        # if get_message == 'test':
+        FlexSendMessage(
+            alt_text='test',
+            contents={
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": "http://linecorp.com/"
+                    }
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "功能選單",
+                            "weight": "bold",
+                            "size": "xl"
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "action": {
+                                "type": "postback",
+                                "label": "下單/上架",
+                                "data": "A&func1"
+                            },
+                            "style": "primary"
+                        },
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "postback",
+                                "label": "線上比價",
+                                "data": "A&func2"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "action": {
+                                "type": "postback",
+                                "label": "物流追蹤",
+                                "data": "A&func3"
+                            },
+                            "style": "secondary"
+                        }
+                    ],
+                    "flex": 0
+                }
+            }
+        )
     elif isinstance(event, PostbackEvent):
         if event.postback.data == "A&func1":  # 如果回傳值為「購買商品」
             text_reply('請輸入關鍵字:')
