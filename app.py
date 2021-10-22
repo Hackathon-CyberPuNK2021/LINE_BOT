@@ -50,88 +50,92 @@ def text_reply(content, event):
 
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
-    id = event.source.user_id
+    id = event.source.user_id  # 獲取使用者ID
     print(id)
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
-    if get_message.upper()[:2] == 'HI':
-        interface = FlexSendMessage(
-            alt_text='Hi',  # 在聊天室外面看到的文字訊息
-            contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
-                "type": "bubble",
-                "hero": {
-                    "type": "image",
-                    "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
-                    "size": "full",
-                    "aspectRatio": "20:13",
-                    "aspectMode": "cover",
-                    "action": {
-                        "type": "uri",
-                        "uri": "http://linecorp.com/"
-                    }
-                },
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": "功能選單",
-                            "weight": "bold",
-                            "size": "xl"
-                        }
-                    ]
-                },
-                "footer": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "postback",
-                                "label": "下單/上架",
-                                "data": "A&func1"
-                            },
-                            "style": "primary"
-                        },
-                        {
-                            "type": "button",
-                            "style": "secondary",
-                            "action": {
-                                "type": "postback",
-                                "label": "線上比價",
-                                "data": "A&func2"
-                            }
-                        },
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "postback",
-                                "label": "物流追蹤",
-                                "data": "A&func3"
-                            },
-                            "style": "secondary"
-                        }
-                    ],
-                    "flex": 0
-                }
-            }
-        )
-        line_bot_api.reply_message(event.reply_token, interface)
-    elif get_message.upper()[:4] == 'help':
-        helpWord = ''
-        text_reply(helpWord, event)
+    if get_message[0] == '#':
+        get_message = get_message[1:].rstrip().strip()
+        text_reply(get_message, event)
+        pass
     else:
-        textList = ['叫出選單的指令是「Hi」喔']  # 看要不要加笑話之類的
-        text = random.choice(textList)
-        text_reply(text, event)
+        if get_message.upper()[:2] == 'HI':
+            interface = FlexSendMessage(
+                alt_text='Hi',  # 在聊天室外面看到的文字訊息
+                contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
+                    "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                        "size": "full",
+                        "aspectRatio": "20:13",
+                        "aspectMode": "cover",
+                        "action": {
+                            "type": "uri",
+                            "uri": "http://linecorp.com/"
+                        }
+                    },
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "功能選單",
+                                "weight": "bold",
+                                "size": "xl"
+                            }
+                        ]
+                    },
+                    "footer": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "postback",
+                                    "label": "下單/上架",
+                                    "data": "A&func1"
+                                },
+                                "style": "primary"
+                            },
+                            {
+                                "type": "button",
+                                "style": "secondary",
+                                "action": {
+                                    "type": "postback",
+                                    "label": "線上比價",
+                                    "data": "A&func2"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "postback",
+                                    "label": "物流追蹤",
+                                    "data": "A&func3"
+                                },
+                                "style": "secondary"
+                            }
+                        ],
+                        "flex": 0
+                    }
+                }
+            )
+            line_bot_api.reply_message(event.reply_token, interface)
+        elif get_message.upper()[:4] == 'help':
+            helpWord = ''
+            text_reply(helpWord, event)
+        else:
+            textList = ['叫出選單的指令是「Hi」喔']  # 看要不要加笑話之類的
+            text = random.choice(textList)
+            text_reply(text, event)
 
 
 @handler.add(PostbackEvent)  # Postback的部分
 def handle_postback(event):
-    line_bot_api = LineBotApi('<channel access token>')
-    id = line_bot_api.get_profile('<user_id>')
+    id = event.source.user_id
     data = event.postback.data
     if data == 'A&func1':  # 點擊「下單/上架」
         interface = FlexSendMessage(
@@ -173,11 +177,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                                },
+                        },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                                }
+                        }
                     ],
                     "flex": 0
                 }
@@ -189,7 +193,7 @@ def handle_postback(event):
     elif data == 'A&func3':
         text_reply(data, event)
     elif data == 'A&func1&func1':
-        text_reply('請輸入商品關鍵字：', event)
+        text_reply('請輸入商品關鍵字(請在開頭打「#」 ex: #耳機、#馬克杯...)：', event)
         pass
     elif data == 'A&func1&func2':
         pass
