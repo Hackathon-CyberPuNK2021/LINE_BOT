@@ -50,6 +50,8 @@ def text_reply(content, event):
 
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
+    id = line_bot_api.get_profile('<user_id>')
+    print(id)
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
     if get_message.upper()[:2] == 'HI':
         interface = FlexSendMessage(
@@ -128,10 +130,11 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)  # Postback的部分
 def handle_postback(event):
+    id = line_bot_api.get_profile('<user_id>')
     data = event.postback.data
-    if data == 'A&func1':
+    if data == 'A&func1':  # 點擊「下單/上架」
         interface = FlexSendMessage(
-            alt_text='Hi',  # 在聊天室外面看到的文字訊息
+            alt_text='A&func1',  # 在聊天室外面看到的文字訊息
             contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
                 "type": "bubble",
                 "hero": {
@@ -169,18 +172,25 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                                },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                                }
                     ],
                     "flex": 0
                 }
             }
         )
         line_bot_api.reply_message(event.reply_token, interface)
-
+    elif data == 'A&func2':
         text_reply(data, event)
+    elif data == 'A&func3':
+        text_reply(data, event)
+    elif data == 'A&func1&func1':
+        text_reply('請輸入商品關鍵字：', event)
+        pass
+    elif data == 'A&func1&func2':
+        pass
 
     # text_reply(data, event)
