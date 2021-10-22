@@ -51,7 +51,7 @@ def text_reply(content, event):
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
-    if get_message == 'Hi':
+    if get_message.upper() == 'HI':
         interface = FlexSendMessage(
             alt_text='Hi',  # 在聊天室外面看到的文字訊息
             contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
@@ -126,4 +126,60 @@ def handle_message(event):
 @handler.add(PostbackEvent)  # Postback的部分
 def handle_postback(event):
     data = event.postback.data
-    text_reply(data, event)
+    if data == 'A&func1':
+        interface = FlexSendMessage(
+            alt_text='Hi',  # 在聊天室外面看到的文字訊息
+            contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
+                {
+                    "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                        "size": "full",
+                        "aspectRatio": "20:13",
+                        "aspectMode": "cover",
+                        "action": {
+                            "type": "uri",
+                            "uri": "http://linecorp.com/"
+                        }
+                    },
+                    "footer": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "button",
+                                "style": "primary",
+                                "height": "sm",
+                                "action": {
+                                    "type": "postback",
+                                    "label": "我要下單商品",
+                                    "data": "A&func1&func1"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "style": "secondary",
+                                "height": "sm",
+                                "action": {
+                                    "type": "postback",
+                                    "label": "我要上架商品",
+                                    "data": "A&func1&func2"
+                                }
+                            },
+                            {
+                                "type": "spacer",
+                                "size": "sm"
+                            }
+                        ],
+                        "flex": 0
+                    }
+                }
+            }
+        )
+        line_bot_api.reply_message(event.reply_token, interface)
+
+        text_reply(data, event)
+
+    # text_reply(data, event)
