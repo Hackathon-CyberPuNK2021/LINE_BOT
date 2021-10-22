@@ -51,7 +51,7 @@ def text_reply(content, event):
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
-    if get_message.upper() == 'HI':
+    if get_message.upper()[:2] == 'HI':
         interface = FlexSendMessage(
             alt_text='Hi',  # 在聊天室外面看到的文字訊息
             contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
@@ -117,6 +117,9 @@ def handle_message(event):
             }
         )
         line_bot_api.reply_message(event.reply_token, interface)
+    elif get_message.upper()[:4] == 'help':
+        helpWord = ''
+        text_reply(helpWord, event)
     else:
         textList = ['叫出選單的指令是「Hi」喔']  # 看要不要加笑話之類的
         text = random.choice(textList)
@@ -130,9 +133,8 @@ def handle_postback(event):
         interface = FlexSendMessage(
             alt_text='Hi',  # 在聊天室外面看到的文字訊息
             contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
-                {
-                    "type": "bubble",
-                    "hero": {
+                "type": "bubble",
+                "hero": {
                         "type": "image",
                         "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
                         "size": "full",
@@ -142,12 +144,12 @@ def handle_postback(event):
                             "type": "uri",
                             "uri": "http://linecorp.com/"
                         }
-                    },
-                    "footer": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "spacing": "sm",
-                        "contents": [
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
                             {
                                 "type": "button",
                                 "style": "primary",
@@ -158,7 +160,7 @@ def handle_postback(event):
                                     "data": "A&func1&func1"
                                 }
                             },
-                            {
+                        {
                                 "type": "button",
                                 "style": "secondary",
                                 "height": "sm",
@@ -168,13 +170,12 @@ def handle_postback(event):
                                     "data": "A&func1&func2"
                                 }
                             },
-                            {
+                        {
                                 "type": "spacer",
                                 "size": "sm"
                             }
-                        ],
-                        "flex": 0
-                    }
+                    ],
+                    "flex": 0
                 }
             }
         )
