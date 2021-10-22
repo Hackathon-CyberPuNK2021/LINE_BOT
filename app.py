@@ -50,8 +50,7 @@ def text_reply(content, event):
 
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
-    line_bot_api = LineBotApi('<channel access token>')
-    id = line_bot_api.get_profile('<user_id>')
+    id = event.source.user_id
     print(id)
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
     if get_message.upper()[:2] == 'HI':
