@@ -1,6 +1,8 @@
 def updateDictionary(text):
-    lst = text.split(";")
-    lst = lst.split("；")
+    if ';' in text:
+        lst = text.split(";")
+    else:
+        lst = text.split("；")
     myDict = {}
     myDict["memberName"] = lst[0]
     myDict["phone"] = lst[1]
