@@ -16,10 +16,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 
 def bubble_reload(nameList, priceList, urlList):
-    for i in range(10):
-        print(nameList[i])
-        print(f"${priceList[i]}")
-        print(urlList[i])
     bubble = {
         "type": "carousel",
         "contents": [
@@ -545,6 +541,7 @@ def bubble_reload(nameList, priceList, urlList):
             }
         ]
     }
+    print(bubble)
     return bubble
 
 
