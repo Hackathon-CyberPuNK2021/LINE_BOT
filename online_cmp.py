@@ -713,6 +713,7 @@ def database_search(name, type=1):
     products = []
     for item in items:
         print(item[2])
+        print(name)
         product = {}
         if item[2] == name:
             product = {
