@@ -125,9 +125,17 @@ def handle_message(event):
         pass
     if get_message[0] in ['#', '＃']:
         get_message = get_message[1:].upper().rstrip().strip()
-        lst = get_message.split(";")
-        productNumber = lst[1]
-        quantity = lst[2]
+        if ';' in get_message:
+            lst = get_message.split(";")
+        else:
+            lst = get_message.split("；")
+        productNumber = lst[0]
+        try:
+            quantity = lst[1]
+            if quantity < 1:
+                quantity = 1
+        except:
+            quantity = 1
         if orderCart(productNumber, id, quantity) == False:
             qq = "已售完QQ"
             text_reply(qq, event)
