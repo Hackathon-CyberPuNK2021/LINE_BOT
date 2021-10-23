@@ -90,7 +90,6 @@ def handle_message(event):
     except:
         info_id = {}
         info = {id: info_id}
-    global mode
     if (get_message.isdigit() and int(get_message) >= 5):
         replyList = ['未出貨', '配送中', '已送達']
         content = random.choice(replyList)
