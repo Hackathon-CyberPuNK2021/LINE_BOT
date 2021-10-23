@@ -20,6 +20,7 @@ def bubble_reload(nameList, priceList, urlList, numList=[]):
         linkName = '資料庫商品'
         charList = []
         charList.extend(numList)
+        print(charList)
     else:
         linkName = '商品連結'
         charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
