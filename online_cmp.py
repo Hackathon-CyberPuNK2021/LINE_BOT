@@ -16,6 +16,7 @@ import contextlib
 
 
 def bubble_reload(nameList, priceList, urlList):
+    charList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     bubble = {
         "type": "carousel",
         "contents": [
@@ -28,7 +29,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[0],
                             "color": "#1DB446"
                         },
                         {
@@ -79,7 +80,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[1],
                             "color": "#1DB446"
                         },
                         {
@@ -130,7 +131,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[2],
                             "color": "#1DB446"
                         },
                         {
@@ -181,7 +182,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[3],
                             "color": "#1DB446"
                         },
                         {
@@ -232,7 +233,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[4],
                             "color": "#1DB446"
                         },
                         {
@@ -283,7 +284,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[5],
                             "color": "#1DB446"
                         },
                         {
@@ -334,7 +335,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[6],
                             "color": "#1DB446"
                         },
                         {
@@ -385,7 +386,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[7],
                             "color": "#1DB446"
                         },
                         {
@@ -436,7 +437,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[8],
                             "color": "#1DB446"
                         },
                         {
@@ -487,7 +488,7 @@ def bubble_reload(nameList, priceList, urlList):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "線上比價",
+                            "text": charList[9],
                             "color": "#1DB446"
                         },
                         {
@@ -760,7 +761,7 @@ def database(nameList, priceList, urlList, id, name, page):
     for i in range(limit*(page-1), limit*page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
-        urlList.append(products[i]["link"])
+        urlList.append("https://linecorp.com")
     print(products)
 
 
