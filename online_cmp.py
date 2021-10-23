@@ -18,7 +18,8 @@ import contextlib
 def bubble_reload(nameList, priceList, urlList, numList=[]):
     if urlList[0] == 'https://linecorp.com':
         linkName = '資料庫商品'
-        charList = numList
+        charList = []
+        charList.extend(numList)
     else:
         linkName = '商品連結'
         charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
