@@ -89,17 +89,12 @@ def handle_message(event):
         info_id = {}
         info = {id: info_id}
 
-    if get_message[0] == '#':  # 資料庫搜尋
-        get_message = get_message[1:].rstrip().strip()
-        content = '您要購買的是 '+get_message
-        text_reply(content, event)
-
-    elif get_message[0] == '?' or get_message[0] == '？' or get_message.isdigit():  # 比價用
+    if get_message[0] in ['?', '？'] or get_message.isdigit():  # 比價用
         Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         start = time.time()
-        if get_message[0] == '?' or get_message[0] == '？':
+        if get_message[0] in ['?', '？']:
             text = get_message[1:].lower().rstrip().strip()
-        else:
+        else:  # 頁數
             text = get_message
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
@@ -240,11 +235,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                                },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                                }
                     ],
                     "flex": 0
                 }
@@ -252,18 +247,7 @@ def handle_postback(event):
         )
         line_bot_api.reply_message(event.reply_token, interface)
     elif data == 'A&func2':
-        text_reply('請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：', event)
-        pass
-    elif data == 'A&func3':
-        text_reply(data, event)
-    elif data == 'A&func1&func1':
-        text = """【搜尋功能】
-        若想在 pchome/momo/shopee 搜尋商品
-        請輸入：  商品名稱;平台 
-        (英文請輸入半型)
-        Ex:  PS5;pchome 、 滑鼠；MOMO
-        要看下一頁則輸入2 3 4 5....
-
+        text = """"
         【比價功能】
         請輸入： 商品名稱;price1/price2
         (英文請輸入半型)
@@ -272,15 +256,30 @@ def handle_postback(event):
         Ex:  PS5;price1 、 滑鼠；Price2
         要看下一頁則輸入2 3 4 5....
 
-
         【注意】
         pchome回傳時間<3秒
         momo回傳時間<3秒
         shopee回傳時間<4秒
         price回傳時間<6秒
+        
+        ------------------------------
+        請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;...)：
+        """
+        text_reply(text, event)
+        pass
+    elif data == 'A&func3':
+        text_reply(data, event)
+    elif data == 'A&func1&func1':
+        text = """
+        【搜尋功能】
+        若想在 pchome/momo/shopee 搜尋商品
+        請輸入：  商品名稱;平台 
+        (英文請輸入半型)
+        Ex:  PS5;pchome 、 滑鼠；MOMO
+        要看下一頁則輸入2 3 4 5....
 
         ------------------------------
-        請輸入商品關鍵字(請在開頭打「#」 ex: #耳機、#馬克杯...)：
+        請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：
         """
         text_reply(text, event)
         pass
