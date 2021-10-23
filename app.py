@@ -120,7 +120,7 @@ def handle_message(event):
         print("time:", end - start, "s")
         pass
     elif get_message[:2] == '上架':
-        d = updateDictionary(get_message)
+        d = updateDictionary(get_message[3:])
         work = d["name"]
         text_reply(work, event)
         # print(type(d))
@@ -294,16 +294,14 @@ price回傳時間<6秒
     elif data == 'A&func3':
         text_reply(data, event)
     elif data == 'A&func1&func1':
-        text = """
-        <下單功能>
+        text = """<下單功能>
         請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：
         """
         text_reply(text, event)
         pass
     elif data == 'A&func1&func2':
         text = """<上架功能>
-請在開頭輸入「上架:」，商品相關資訊：
-(ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;商品數量;台北)
+請在開頭輸入「上架:」，商品相關資訊(ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;商品數量;台北)：
         """
         text_reply(text, event)
 
