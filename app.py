@@ -122,9 +122,6 @@ def handle_message(event):
     elif get_message[:2] == '上架':
         d = updateDictionary(get_message[3:])
         work = d["name"]
-        text_reply(work, event)
-        # print(type(d))
-        id = 886
         try:
             updateMember(id, d, cursor, conn)
         except:
