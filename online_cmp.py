@@ -533,26 +533,6 @@ def bubble_reload(nameList, priceList, urlList):
                         }
                     ]
                 }
-            },
-            {
-                "type": "bubble",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "button",
-                            "flex": 1,
-                            "gravity": "center",
-                            "action": {
-                                "type": "postback",
-                                "label": "瀏覽更多",
-                                "data": "瀏覽更多商品"
-                            }
-                        }
-                    ]
-                }
             }
         ]
     }
