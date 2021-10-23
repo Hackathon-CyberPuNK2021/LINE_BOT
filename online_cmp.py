@@ -829,6 +829,10 @@ def search(id, info, page=1):
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "htl")
         return bubble_reload(nameList, priceList, urlList)
+    elif info["platform"] == "database":
+        database(nameList, priceList, urlList, id,
+                 info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     else:
         return -1
         # """無法搜尋到商品，請確認輸入是否有誤～"""

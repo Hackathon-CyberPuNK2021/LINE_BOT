@@ -43,16 +43,13 @@ def updateProduct(id, j, cursor, conn):
     cursor.execute(
         "SELECT \"memberNumber\" From member WHERE \"lineID\" = '%s'" % str(id))
     query = cursor.fetchall()
-    # print(query)
     memberNum = query[0][0]
     cursor.execute('SELECT MAX("productNumber") FROM product')
     query = cursor.fetchall()
     maxnum = query[0][0]
-    # print(maxnum)
     if maxnum == None:
         maxnum = 0
     proNum = maxnum+1
-    # print(proNum)
-    cursor.execute('INSERT INTO product("productNumber","memberNumber","productName","productDescription","productPicturelink","productPrice","productQuantity","deliveryPlace") VALUES(%s,%s,%s,%s,%s,%s,%s,%s);',
-                   (proNum, memberNum, j["name"], j["description"], j["link"], j["price"], j["quantity"], j["place"]))
+    cursor.execute('INSERT INTO product("productNumber","memberNumber","productName","productDescription","productPicturelink","productPrice","productQuantity","deliveryPlace","productState") VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s);',
+                   (proNum, memberNum, j["name"], j["description"], j["link"], j["price"], j["quantity"], j["place"], True))
     conn.commit()
