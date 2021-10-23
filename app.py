@@ -39,6 +39,8 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.environ.get("CHANNEL_ACCESS_TOKEN"))
 handler = WebhookHandler(os.environ.get("CHANNEL_SECRET"))
 
+mode = 0
+
 
 @app.route("/", methods=["GET", "POST"])
 def callback():
@@ -90,6 +92,11 @@ def handle_message(event):
     except:
         info_id = {}
         info = {id: info_id}
+
+    if mode == 1:
+        replyList = ['未出貨', '配送中', '已送達']
+        content = random.choice(replyList)
+        text_reply(content, event)
 
     if get_message[0] in ['?', '？'] or get_message.isdigit():  # 比價用
         start = time.time()
@@ -157,6 +164,8 @@ def handle_message(event):
         text_reply(string, event)
         conn.commit()
     elif get_message == "下單":
+        buy = "已完成下單！"
+        text_reply(buy, event)
         orderlist = orderCartProduct(id, cursor, conn)
         s = ''
         print(orderlist)
@@ -346,9 +355,28 @@ price回傳時間<6秒
 請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;pchome...)：
         """
         text_reply(text, event)
-        pass
     elif data == 'A&func3':
-        text_reply(data, event)
+        DATABASE_URL = os.environ['DATABASE_URL']  # 資料庫區塊
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = conn.cursor()
+        postgres_select_query = 'SELECT "memberNumber" FROM member WHERE "lineID" = \'%s\'' % id
+        cursor.execute(postgres_select_query)
+        memberNum = cursor.fetchall()
+        # print(memberNum[0][0])
+        postgres_select_query2 = 'SELECT "productNumber","productName" FROM "orderInfo" WHERE "buyerNumber" = %d' % memberNum[
+            0][0]
+        cursor.execute(postgres_select_query2)
+        query = cursor.fetchall()
+        s = ''
+        for i in query:
+            for j in i:
+                s += str(j)
+                s += ","
+            s += "\n"
+        print(s)
+        text_reply(s, event)
+        mode = 1
+
     elif data == 'A&func1&func1':
         text = """<下單功能>
 請在商品關鍵字開頭打入「?」 ex:?耳機、?馬克杯...
