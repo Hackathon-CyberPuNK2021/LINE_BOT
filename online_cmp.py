@@ -763,31 +763,40 @@ def price(nameList, priceList, urlList, id, name, page, sort):
 
 
 def search(id, info, page=1):
-    nameList = []
-    priceList = []
-    urlList = []
-    nameList.clear()
-    priceList.clear()
-    urlList.clear()
+    try:
+        with open("info_list.json") as file:
+            info_list = json.loads(file)
+    except:
+        info_list = {
+            "nameList": [],
+            "priceList": [],
+            "urlList": []
+        }
+    nameList = info_list["nameList"]
+    priceList = info_list["priceList"]
+    urlList = info_list["urlList"]
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
         pchome(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        result = bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "momo":
         momo(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        result = bubble_reload(nameList, priceList, urlList)
     elif info["platform"] in ("shopee", "蝦皮"):
         shopee(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        result = bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price1":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "lth")
-        return bubble_reload(nameList, priceList, urlList)
+        result = bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price2":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "htl")
-        return bubble_reload(nameList, priceList, urlList)
+        result = bubble_reload(nameList, priceList, urlList)
     else:
-        return -1
-        # """無法搜尋到商品，請確認輸入是否有誤～"""
+        result = -1
+    with open("info_list.json", "w") as file:
+        json.dump(info_list, file)
+    return result
+    # """無法搜尋到商品，請確認輸入是否有誤～"""
