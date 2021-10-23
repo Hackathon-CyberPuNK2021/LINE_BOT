@@ -761,6 +761,7 @@ def database(nameList, priceList, urlList, id, name, page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
         urlList.append(products[i]["link"])
+    print(products)
 
 
 def price(nameList, priceList, urlList, id, name, page, sort):
