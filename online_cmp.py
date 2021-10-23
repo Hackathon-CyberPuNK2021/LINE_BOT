@@ -1,5 +1,10 @@
 from __future__ import unicode_literals, with_statement
-import json, requests, re, urllib, time, psycopg2
+import json
+import requests
+import re
+import urllib
+import time
+import psycopg2
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from emoji import UNICODE_EMOJI
@@ -30,7 +35,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[0],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -80,7 +85,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[1],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -130,7 +135,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[2],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -180,7 +185,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[3],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -230,7 +235,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[4],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -280,7 +285,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[5],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -330,7 +335,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[6],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -380,7 +385,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[7],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -430,7 +435,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[8],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -480,7 +485,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[9],
                             "weight": "bold",
-                            "size": "xl"
+                            "size": "sm"
                         },
                         {
                             "type": "box",
@@ -702,7 +707,8 @@ def shopee(nameList, priceList, urlList, id, name, page):
         priceList.append(products[i]["price"])
         urlList.append(products[i]["link"])
 
-def database_search(name, type = 1):
+
+def database_search(name, type=1):
     url = "postgres://xseaswlvhvhgnm:a6383e19f7ab5a17b0b89671e2d8c363ce18a229550faaac57d61058e8269929@ec2-34-233-64-238.compute-1.amazonaws.com:5432/de3mlq5i95dhst"
     conn = psycopg2.connect(url, sslmode='require')
     cursor = conn.cursor()
@@ -720,6 +726,7 @@ def database_search(name, type = 1):
         if type in (2, 3):
             products[-1]["price_avg"] = int(item[5])
     return products
+
 
 def database(nameList, priceList, urlList, id, name, page):
     limit = 10
@@ -745,6 +752,7 @@ def database(nameList, priceList, urlList, id, name, page):
         priceList.append(products[i]["price"])
         urlList.append(products[i]["link"])
 
+
 def price(nameList, priceList, urlList, id, name, page, sort):
     limit = 10
     pc = {"lth": "價錢由低至高", "htl": "價錢由高至低"}
@@ -767,7 +775,7 @@ def price(nameList, priceList, urlList, id, name, page, sort):
         products += pchome_search(name, pages, pc[sort])
         products += momo_search(name, pages, mo[sort])
         products += shopee_search(name, pages, sh[sort], "price")
-        products += momo_search(name, da[sort])
+        products += database_search(name, da[sort])
     products = sorted(products, key=lambda d: d["price_avg"])
     if sort == "htl":
         products.reverse()
@@ -786,6 +794,7 @@ def price(nameList, priceList, urlList, id, name, page, sort):
             name = "〈Shopee〉" + products[i]["name"]
         nameList.append(name)
         priceList.append(products[i]["price"])
+
 
 def search(id, info, page=1):
     nameList = []
