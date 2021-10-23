@@ -717,7 +717,7 @@ def database_search(name, type=1):
             product = {
                 "link": item[0],
                 "name": name,
-                "price": "$" + str(item[5])
+                "price": str(item[5])
             }
         if type in (2, 3):
             product["price_avg"] = int(item[5])
