@@ -1,4 +1,4 @@
-from bs4.element import TemplateString
+from bs4.element import ContentMetaAttributeValue, TemplateString
 from flask import Flask, abort, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -19,6 +19,9 @@ from linebot.models import (MessageEvent,
                             PostbackTemplateAction)
 import os
 import random
+import json
+import os
+import psycopg2
 
 app = Flask(__name__)
 
@@ -50,12 +53,24 @@ def text_reply(content, event):
 
 @handler.add(MessageEvent, message=TextMessage)  # 普通訊息的部分
 def handle_message(event):
+
+    DATABASE_URL = os.environ['DATABASE_URL']  # 資料庫區塊
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
+    with open('setting.json', 'r', encoding='utf8') as jfile:  # 識別身分
+        jdata = json.load(jfile)
+    #file = open(fileName, "w")
+    #json.dump(jsonString, file)
+    # file.close()
+
     id = event.source.user_id  # 獲取使用者ID
     print(id)
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
     if get_message[0] == '#':
         get_message = get_message[1:].rstrip().strip()
-        text_reply(get_message, event)
+        content = '您要購買的是 '+get_message
+        text_reply(content, event)
         pass
     else:
         if get_message.upper()[:2] == 'HI':
@@ -124,7 +139,7 @@ def handle_message(event):
                 }
             )
             line_bot_api.reply_message(event.reply_token, interface)
-        elif get_message.upper()[:4] == 'help':
+        elif get_message.upper()[:4] == 'HELP':
             helpWord = ''
             text_reply(helpWord, event)
         else:
@@ -177,11 +192,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                        },
+                                },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                        }
+                                }
                     ],
                     "flex": 0
                 }
