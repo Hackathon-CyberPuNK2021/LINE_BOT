@@ -20,8 +20,17 @@ from linebot.models import (MessageEvent,
 import os
 import random
 import json
-import os
 import psycopg2
+import requests
+import urllib
+import contextlib
+import time
+from urllib.parse import urlencode
+from urllib.request import urlopen
+from emoji import UNICODE_EMOJI
+from bs4 import BeautifulSoup
+
+from online_cmp import*
 
 app = Flask(__name__)
 
@@ -71,6 +80,54 @@ def handle_message(event):
         get_message = get_message[1:].rstrip().strip()
         content = '您要購買的是 '+get_message
         text_reply(content, event)
+
+    elif get_message[0] == '?' or get_message[0] == '？':
+        mode_off = """機器人目前測試中
+        請稍後再使用
+        輸入help可查詢使用方式及新增功能"""
+        Except = """無法搜尋到商品
+        請確認輸入是否有誤～"""
+        limit = 5
+        start = time.time()
+        text = get_message[1:].rstrip().strip()
+        id_developer = "U1e38384f12f22c77281ec3e8611025c8"
+        try:
+            with open("search_info.json") as file:
+                info = json.load(file)
+                try:
+                    info_id = info[id]
+                except:
+                    info_id = {}
+                    info[id] = info_id
+        except:
+            info_id = {}
+            info = {"mode_off": False, id: info_id}
+        if info["mode_off"] and id != id_developer:
+            message = mode_off
+        elif ";" in text:
+            info_id["search_name"], info_id["platform"] = text.split(";")
+            message = search(id, info_id)
+        elif "；" in text:
+            info_id["search_name"], info_id["platform"] = text.split("；")
+            message = search(id, info_id)
+        elif text.isdigit() == True:
+            message = search(id, info_id, int(text))
+        elif text == "mode off" and id == id_developer:
+            info["mode_off"] = True
+            print("mode off")
+            message = "mode off"
+        elif text == "mode on" and id == id_developer:
+            info["mode_off"] = False
+            print("mode on")
+            message = "mode on"
+        else:
+            message = Except
+        with open("search_info.json", "w") as file:
+            json.dump(info, file)
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text=message))
+        end = time.time()
+        print("time:", end - start, "s")
         pass
     else:
         if get_message.upper()[:2] == 'HI':
@@ -80,7 +137,7 @@ def handle_message(event):
                     "type": "bubble",
                     "hero": {
                         "type": "image",
-                        "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                        "url": "https://i.imgur.com/pf87Feb.png",
                         "size": "full",
                         "aspectRatio": "20:13",
                         "aspectMode": "cover",
@@ -159,7 +216,7 @@ def handle_postback(event):
                 "type": "bubble",
                 "hero": {
                         "type": "image",
-                        "url": "https://cdn.unwire.hk/wp-content/uploads/2020/10/1028-1b.jpg",
+                        "url": "https://i.imgur.com/pf87Feb.png",
                         "size": "full",
                         "aspectRatio": "20:13",
                         "aspectMode": "cover",
@@ -204,7 +261,8 @@ def handle_postback(event):
         )
         line_bot_api.reply_message(event.reply_token, interface)
     elif data == 'A&func2':
-        text_reply(data, event)
+        text_reply('請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：', event)
+        pass
     elif data == 'A&func3':
         text_reply(data, event)
     elif data == 'A&func1&func1':
