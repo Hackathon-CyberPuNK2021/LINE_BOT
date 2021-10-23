@@ -33,7 +33,6 @@ from bs4 import BeautifulSoup
 
 from online_cmp import*
 from trade import*
-from custom_models import flex, orderCart
 
 app = Flask(__name__)
 
