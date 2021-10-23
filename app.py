@@ -125,7 +125,39 @@ def handle_message(event):
         pass
     if get_message[0] in ['#', '＃']:
         get_message = get_message[1:].upper().rstrip().strip()
-
+        lst = get_message.split(";")
+        productNumber = lst[1]
+        quantity = lst[2]
+        if orderCart(productNumber, id, quantity) == False:
+            qq = "已售完QQ"
+            text_reply(qq, event)
+        else:
+            finish_ = "已放入購物車！\n若要查看購物車請輸入\"查看購物車\"，若要下訂單請輸入\"下單\""
+            text_reply(finish_, event)
+        conn.commit()
+    elif get_message == "查看購物車":
+        checkCart(id, cursor)
+        lst = checkCart(id, cursor)
+        print(lst)
+        string = ''
+        for i in lst:
+            for j in i:
+                string += str(j)
+                string += ','
+            string += "\n"
+        text_reply(string, event)
+        conn.commit()
+    elif get_message == "下單":
+        orderlist = orderCartProduct(id, cursor, conn)
+        s = ''
+        for i in orderlist:
+            for j in i:
+                s += str(j)
+                s += ","
+            s += "\n"
+        buy = "已完成下單！您的訂單內容為："+s
+        text_reply(buy, event)
+        conn.commit()
     elif get_message[:2] == '上架':
         d = updateDictionary(get_message[3:])
         work = d["name"]
@@ -264,11 +296,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                        },
+                            },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                        }
+                            }
                     ],
                     "flex": 0
                 }
@@ -308,7 +340,15 @@ price回傳時間<6秒
         text_reply(data, event)
     elif data == 'A&func1&func1':
         text = """<下單功能>
-        請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：
+請在商品關鍵字開頭打入「?」 ex:?耳機、?馬克杯...
+
+之後再輸入「#號碼;數量」以加入購物車  ex:#飛機模型;3
+
+輸入「查看購物車」可以檢視內部物品
+
+最後輸入「下單」已完成下單：
+
+
         """
         text_reply(text, event)
         pass
