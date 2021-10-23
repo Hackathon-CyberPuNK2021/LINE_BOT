@@ -20,6 +20,9 @@ def bubble_reload(nameList, priceList, urlList):
         print(nameList[i])
         print(f"${priceList[i]}")
         print(urlList[i])
+    len(nameList)
+    len(priceList)
+    len(urlList)
     bubble = {
         "type": "carousel",
         "contents": [
