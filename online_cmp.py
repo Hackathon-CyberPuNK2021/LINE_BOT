@@ -811,6 +811,7 @@ def search(id, info, page=1):
     nameList = []
     priceList = []
     urlList = []
+    print(info)
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
