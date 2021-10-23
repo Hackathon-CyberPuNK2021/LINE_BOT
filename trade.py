@@ -127,7 +127,7 @@ def orderCartProduct(id, cursor, conn):
     query = cursor.fetchall()
     memberNum = query[0][0]
     # 找到要調的資料
-    lst_cart = checkCart(id)
+    lst_cart = checkCart(id, cursor)
     # print(lst_cart)
     lst_productNumber = []
     lst_productName = []
