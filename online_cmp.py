@@ -541,7 +541,11 @@ def bubble_reload(nameList, priceList, urlList):
             }
         ]
     }
-    print(bubble)
+    interface = FlexSendMessage(
+        alt_text='func2',  # 在聊天室外面看到的文字訊息
+        contents=Bubble
+    )
+    line_bot_api.reply_message(event.reply_token, interface)
     return bubble
 
 
