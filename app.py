@@ -97,7 +97,8 @@ def handle_message(event):
     elif get_message[0] == '?' or get_message[0] == '？' or get_message.isdigit():  # 比價用
         Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         start = time.time()
-        text = get_message[1:].rstrip().strip()
+        if get_message[0] == '?' or get_message[0] == '？':
+            text = get_message[1:].lower().rstrip().strip()
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
             message = search(id, info_id)
