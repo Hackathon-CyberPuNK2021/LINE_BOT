@@ -86,7 +86,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[1],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -136,7 +137,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[2],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -186,7 +188,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[3],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -236,7 +239,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[4],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -286,7 +290,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[5],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -336,7 +341,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[6],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -386,7 +392,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[7],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -436,7 +443,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[8],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
@@ -486,7 +494,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[9],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": True
                         },
                         {
                             "type": "box",
