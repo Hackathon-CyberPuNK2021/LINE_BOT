@@ -15,12 +15,13 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 import contextlib
 
 
-def bubble_reload(nameList, priceList, urlList):
-    charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
+def bubble_reload(nameList, priceList, urlList, numList=[]):
     if urlList[0] == 'https://linecorp.com':
         linkName = '資料庫商品'
+        charList = numList
     else:
         linkName = '商品連結'
+        charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
     bubble = {
         "type": "carousel",
         "contents": [
@@ -726,7 +727,7 @@ def database_search(name, type=1):
     return products
 
 
-def database(nameList, priceList, urlList, id, name, page):
+def database(nameList, priceList, urlList, numList, id, name, page):
     limit = 10
     try:
         with open("products_info_database.json") as file:
@@ -750,6 +751,7 @@ def database(nameList, priceList, urlList, id, name, page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
         urlList.append("https://linecorp.com")
+        numList.append(products[i]["link"])
 
 
 def price(nameList, priceList, urlList, id, name, page, sort):
@@ -799,6 +801,7 @@ def search(id, info, page=1):
     nameList = []
     priceList = []
     urlList = []
+    numList = []
     if info["platform"][:6] == "pchome":
         pchome(nameList, priceList, urlList, id, info["search_name"], page)
         return bubble_reload(nameList, priceList, urlList)
@@ -817,9 +820,9 @@ def search(id, info, page=1):
               info["search_name"], page, "htl")
         return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "database":
-        database(nameList, priceList, urlList, id,
+        database(nameList, priceList, urlList, numList, id,
                  info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, numList)
     else:
         return -1
         # """無法搜尋到商品，請確認輸入是否有誤～"""
