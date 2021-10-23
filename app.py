@@ -133,7 +133,6 @@ def handle_message(event):
 (ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;900;1;台北)
             """
             text_reply(Except, event)
-        text_reply(work, event)
         updateProduct(id, d, cursor, conn)
         finish = "上架完成！"
         text_reply(finish, event)
