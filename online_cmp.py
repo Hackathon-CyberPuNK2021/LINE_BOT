@@ -16,7 +16,7 @@ import contextlib
 
 
 def bubble_reload(nameList, priceList, urlList):
-    charList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+    charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
     bubble = {
         "type": "carousel",
         "contents": [
@@ -732,7 +732,7 @@ def database_search(name, type=1):
             products.append({
                 "link": item[0],
                 "name": name,
-                "price": "$" + str(item[5])
+                "price": str(item[5])
             })
         if type in (2, 3):
             products[-1]["price_avg"] = int(item[5])
