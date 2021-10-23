@@ -260,11 +260,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                        },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                        }
                     ],
                     "flex": 0
                 }
