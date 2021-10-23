@@ -87,7 +87,7 @@ def handle_message(event):
                 info[id] = info_id
     except:
         info_id = {}
-        info = {"mode_off": False, id: info_id}
+        info = {id: info_id}
 
     if get_message[0] == '#':  # 資料庫搜尋
         get_message = get_message[1:].rstrip().strip()
@@ -95,8 +95,6 @@ def handle_message(event):
         text_reply(content, event)
 
     elif get_message[0] == '?' or get_message[0] == '？' or get_message.isdigit():  # 比價用
-        mode_off = """機器人目前測試中，請稍後再使用
-        輸入help可查詢使用方式及新增功能"""
         Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         start = time.time()
         text = get_message[1:].rstrip().strip()
