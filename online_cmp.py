@@ -17,6 +17,10 @@ import contextlib
 
 def bubble_reload(nameList, priceList, urlList):
     charList = ['#A', '#B', '#C', '#D', '#E', '#F', '#G', '#H', '#I', '#J']
+    if urlList[0] == 'https://linecorp.com':
+        linkName = '資料庫商品'
+    else:
+        linkName = '商品連結'
     bubble = {
         "type": "carousel",
         "contents": [
@@ -64,7 +68,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri":  urlList[0]
                             }
                         }
@@ -115,7 +119,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[1]
                             }
                         }
@@ -166,7 +170,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[2]
                             }
                         }
@@ -217,7 +221,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[3]
                             }
                         }
@@ -268,7 +272,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[4]
                             }
                         }
@@ -319,7 +323,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[5]
                             }
                         }
@@ -370,7 +374,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[6]
                             }
                         }
@@ -421,7 +425,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[7]
                             }
                         }
@@ -472,7 +476,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[8]
                             }
                         }
@@ -523,7 +527,7 @@ def bubble_reload(nameList, priceList, urlList):
                             "style": "secondary",
                             "action": {
                                 "type": "uri",
-                                "label": "商品連結",
+                                "label": linkName,
                                 "uri": urlList[9]
                             }
                         }
@@ -728,14 +732,16 @@ def database_search(name, type=1):
     items = cursor.fetchall()
     products = []
     for item in items:
+        product = {}
         if item[2] == name:
-            products.append({
+            product = {
                 "link": item[0],
                 "name": name,
-                "price": str(item[5])
-            })
+                "price": "$" + str(item[5])
+            }
         if type in (2, 3):
-            products[-1]["price_avg"] = int(item[5])
+            product["price_avg"] = int(item[5])
+            products.append(product)
     return products
 
 
