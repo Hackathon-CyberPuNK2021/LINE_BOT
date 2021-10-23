@@ -16,6 +16,10 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 
 
 def bubble_reload(nameList, priceList, urlList):
+    for i in range(10):
+        print(nameList[i])
+        print(f"${priceList[i]}")
+        print(urlList[i])
     bubble = {
         "type": "carousel",
         "contents": [
@@ -572,6 +576,9 @@ def pchome_search(keyword, page, sort='有貨優先'):
 
 
 def pchome(nameList, priceList, urlList, id, name, page):
+    nameList.clear()
+    priceList.clear()
+    urlList.clear()
     limit = 10
     try:
         with open("products_info_pchome.json") as file:
@@ -617,6 +624,9 @@ def momo_search(name, page, Type=1):
 
 
 def momo(nameList, priceList, urlList, id, name, page):
+    nameList.clear()
+    priceList.clear()
+    urlList.clear()
     limit = 10
     try:
         with open("products_info_momo.json") as file:
@@ -685,6 +695,9 @@ def shopee_search(name, page, order="desc", by="relevancy"):
 
 
 def shopee(nameList, priceList, urlList, id, name, page):
+    nameList.clear()
+    priceList.clear()
+    urlList.clear()
     limit = 10
     try:
         with open("products_info_shopee.json") as file:
@@ -750,6 +763,9 @@ def search(id, info, page=1):
     nameList = []
     priceList = []
     urlList = []
+    nameList.clear()
+    priceList.clear()
+    urlList.clear()
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
