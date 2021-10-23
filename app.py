@@ -163,7 +163,7 @@ def handle_message(event):
                                 "style": "secondary",
                                 "action": {
                                     "type": "postback",
-                                    "label": "線上比價",
+                                    "label": "線上比價/跨平台搜尋",
                                     "data": "A&func2"
                                 }
                             },
@@ -247,23 +247,31 @@ def handle_postback(event):
         )
         line_bot_api.reply_message(event.reply_token, interface)
     elif data == 'A&func2':
-        text = """"
-        【比價功能】
-        請輸入： 商品名稱;price1/price2
-        (英文請輸入半型)
-        price1：從最低價開始排
-        price2：從最高價開始排
-        Ex:  PS5;price1 、 滑鼠；Price2
-        要看下一頁則輸入2 3 4 5....
+        text = """【比價功能】
+請輸入： 商品名稱;price1/price2
+(英文請輸入半型)
+price1：從最低價開始排
+price2：從最高價開始排
+Ex:  PS5;price1 、 滑鼠；Price2
+要看下一頁則輸入2 3 4 5....
 
-        【注意】
-        pchome回傳時間<3秒
-        momo回傳時間<3秒
-        shopee回傳時間<4秒
-        price回傳時間<6秒
+【搜尋功能】  
+若想在 pchome/momo/shopee 搜尋商品
+請輸入：  商品名稱;平台 
+(英文請輸入半型)
+Ex:  PS5;pchome 、 滑鼠；MOMO
+要看下一頁則輸入2 3 4 5....
+
+------------------------------
+
+【注意】
+pchome回傳時間<3秒
+momo回傳時間<3秒
+shopee回傳時間<4秒
+price回傳時間<6秒
         
-        ------------------------------
-        請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;...)：
+------------------------------
+請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;...)：
         """
         text_reply(text, event)
         pass
@@ -271,14 +279,6 @@ def handle_postback(event):
         text_reply(data, event)
     elif data == 'A&func1&func1':
         text = """
-        【搜尋功能】
-        若想在 pchome/momo/shopee 搜尋商品
-        請輸入：  商品名稱;平台 
-        (英文請輸入半型)
-        Ex:  PS5;pchome 、 滑鼠；MOMO
-        要看下一頁則輸入2 3 4 5....
-
-        ------------------------------
         請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機、?馬克杯...)：
         """
         text_reply(text, event)
