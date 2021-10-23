@@ -39,8 +39,6 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.environ.get("CHANNEL_ACCESS_TOKEN"))
 handler = WebhookHandler(os.environ.get("CHANNEL_SECRET"))
 
-mode = 0
-
 
 @app.route("/", methods=["GET", "POST"])
 def callback():
@@ -93,13 +91,12 @@ def handle_message(event):
         info_id = {}
         info = {id: info_id}
     global mode
-    if mode == 1:
+    if (get_message.isdigit() and int(get_message) >= 5):
         replyList = ['未出貨', '配送中', '已送達']
         content = random.choice(replyList)
         text_reply(content, event)
-        mode = 0
 
-    if get_message[0] in ['?', '？'] or get_message.isdigit():  # 比價用
+    if get_message[0] in ['?', '？'] or (get_message.isdigit() and int(get_message) <= 5):  # 比價用
         start = time.time()
         if get_message[0] in ['?', '？']:
             text = get_message[1:].lower().rstrip().strip()
@@ -317,11 +314,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                        },
+                                },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                        }
+                                }
                     ],
                     "flex": 0
                 }
@@ -376,8 +373,6 @@ price回傳時間<6秒
             s += "\n"
         print(s)
         text_reply(s, event)
-        global mode
-        mode = 1
 
     elif data == 'A&func1&func1':
         text = """<下單功能>
