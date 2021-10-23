@@ -53,5 +53,5 @@ def updateProduct(id, j, cursor, conn):
         maxnum = 0
     proNum = maxnum+1
     cursor.execute('INSERT INTO product("productNumber","memberNumber","productName","productDescription","productPicturelink","productPrice","productQuantity","deliveryPlace","productState") VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s);',
-                   (proNum, memberNum, j["name"], j["description"], j["link"], j["price"], j["quantity"], j["place"], True))
+                   (proNum, memberNum, j["name"], j["description"], j["link"], j["price"], j["quantity"], j["place"], True, None))
     conn.commit()

@@ -123,6 +123,9 @@ def handle_message(event):
         end = time.time()
         print("time:", end - start, "s")
         pass
+    if get_message[0] in ['#', '＃']:
+        get_message = get_message[1:].upper().rstrip().strip()
+
     elif get_message[:2] == '上架':
         d = updateDictionary(get_message[3:])
         work = d["name"]
@@ -261,11 +264,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                        },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                        }
                     ],
                     "flex": 0
                 }
@@ -297,7 +300,7 @@ shopee回傳時間<4秒
 price回傳時間<6秒
         
 ------------------------------
-請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;...)：
+請輸入商品關鍵字(請在開頭打「?」 ex: ?耳機;shopee、?馬克杯;pchome...)：
         """
         text_reply(text, event)
         pass
