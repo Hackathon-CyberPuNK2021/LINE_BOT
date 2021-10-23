@@ -16,6 +16,10 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 
 def bubble_reload(nameList, priceList, urlList):
+    for i in range(10):
+        print(nameList[i])
+        print(f"${priceList[i]}")
+        print(urlList[i])
     bubble = {
         "type": "carousel",
         "contents": [
@@ -770,4 +774,5 @@ def search(id, info, page=1):
               info["search_name"], page, "htl")
         return bubble_reload(nameList, priceList, urlList)
     else:
-        return """無法搜尋到商品，請確認輸入是否有誤～"""
+        return -1
+        # """無法搜尋到商品，請確認輸入是否有誤～"""
