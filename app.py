@@ -134,7 +134,7 @@ def handle_message(event):
             """
             text_reply(Except, event)
         updateProduct(id, d, cursor, conn)
-        finish = "上架完成！"
+        finish = f"{work} 已上架完成！"
         text_reply(finish, event)
         conn.commit()
         cursor.close()
