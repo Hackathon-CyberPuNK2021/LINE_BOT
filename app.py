@@ -126,7 +126,7 @@ def handle_message(event):
         # print(type(d))
         id = 886
         try:
-            updateMember(id, d)
+            updateMember(id, d, cursor, conn)
         except:
             Except = """輸入錯誤！請按照以下格式
 上架:賣家暱稱;電話號碼;商品名稱;商品敘述;圖片網址;價格;商品數量;賣家地區
@@ -134,9 +134,12 @@ def handle_message(event):
             """
             text_reply(Except, event)
         text_reply(work, event)
-        updateProduct(id, d)
+        updateProduct(id, d, cursor, conn)
         finish = "上架完成！"
         text_reply(finish, event)
+        conn.commit()
+        cursor.close()
+        conn.close()
     else:
         if get_message.upper()[:2] == 'HI':
             interface = FlexSendMessage(
