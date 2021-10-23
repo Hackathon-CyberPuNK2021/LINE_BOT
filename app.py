@@ -30,10 +30,10 @@ from urllib.parse import urlencode
 from urllib.request import urlopen
 from emoji import UNICODE_EMOJI
 from bs4 import BeautifulSoup
+
 from online_cmp import*
 from trade import*
 from custom_models import flex, orderCart
-
 
 app = Flask(__name__)
 
@@ -106,8 +106,9 @@ def handle_message(event):
             Bubble = search(id, info_id)
         elif text.isdigit() == True:
             Bubble = search(id, info_id, int(text))
-        elif ";" not in text and "；" not in text:
+        elif ";" not in text and "；" not in text:  # and get_message.isdigit() == false
             info_id["platform"] = "database"
+            info_id["search_name"] = text
             Bubble = search(id, info_id)
         with open("search_info.json", "w") as file:
             json.dump(info, file)
@@ -260,11 +261,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                        },
+                            },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                        }
+                            }
                     ],
                     "flex": 0
                 }
