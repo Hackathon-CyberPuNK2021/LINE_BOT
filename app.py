@@ -100,10 +100,7 @@ def handle_message(event):
         Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         start = time.time()
         text = get_message[1:].rstrip().strip()
-        id_developer = "U1e38384f12f22c77281ec3e8611025c8"
-        if info["mode_off"] and id != id_developer:
-            message = mode_off
-        elif ";" in text:
+        if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
             message = search(id, info_id)
         elif "；" in text:
@@ -113,14 +110,6 @@ def handle_message(event):
             message = search(id, info_id, int(text))
         elif text.isdigit() == True:
             message = search(id, info_id, int(text))
-        elif text == "mode off" and id == id_developer:
-            info["mode_off"] = True
-            print("mode off")
-            message = "mode off"
-        elif text == "mode on" and id == id_developer:
-            info["mode_off"] = False
-            print("mode on")
-            message = "mode on"
         else:
             message = Except
         with open("search_info.json", "w") as file:
