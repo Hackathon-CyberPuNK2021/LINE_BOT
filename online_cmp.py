@@ -579,21 +579,21 @@ def pchome_search(keyword, page, sort='有貨優先'):
 
 
 def pchome(nameList, priceList, urlList, id, name, page):
-    nameList.clear()
-    priceList.clear()
-    urlList.clear()
     limit = 10
     try:
         with open("products_info_pchome.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += pchome_search(name, pages)
@@ -627,21 +627,21 @@ def momo_search(name, page, Type=1):
 
 
 def momo(nameList, priceList, urlList, id, name, page):
-    nameList.clear()
-    priceList.clear()
-    urlList.clear()
     limit = 10
     try:
         with open("products_info_momo.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += momo_search(name, pages)
@@ -698,21 +698,21 @@ def shopee_search(name, page, order="desc", by="relevancy"):
 
 
 def shopee(nameList, priceList, urlList, id, name, page):
-    nameList.clear()
-    priceList.clear()
-    urlList.clear()
     limit = 10
     try:
         with open("products_info_shopee.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += shopee_search(name, pages)
@@ -763,40 +763,28 @@ def price(nameList, priceList, urlList, id, name, page, sort):
 
 
 def search(id, info, page=1):
-    try:
-        with open("info_list.json") as file:
-            info_list = json.loads(file)
-    except:
-        info_list = {
-            "nameList": [],
-            "priceList": [],
-            "urlList": []
-        }
-    nameList = info_list["nameList"]
-    priceList = info_list["priceList"]
-    urlList = info_list["urlList"]
+    nameList = []
+    priceList = []
+    urlList = []
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
         pchome(nameList, priceList, urlList, id, info["search_name"], page)
-        result = bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "momo":
         momo(nameList, priceList, urlList, id, info["search_name"], page)
-        result = bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] in ("shopee", "蝦皮"):
         shopee(nameList, priceList, urlList, id, info["search_name"], page)
-        result = bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price1":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "lth")
-        result = bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price2":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "htl")
-        result = bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList)
     else:
-        result = -1
-    with open("info_list.json", "w") as file:
-        json.dump(info_list, file)
-    return result
-    # """無法搜尋到商品，請確認輸入是否有誤～"""
+        return -1
+        # """無法搜尋到商品，請確認輸入是否有誤～"""
