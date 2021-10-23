@@ -99,6 +99,8 @@ def handle_message(event):
         start = time.time()
         if get_message[0] == '?' or get_message[0] == '？':
             text = get_message[1:].lower().rstrip().strip()
+        else:
+            text = get_message
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
             message = search(id, info_id)
