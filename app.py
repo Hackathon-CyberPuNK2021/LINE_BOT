@@ -92,11 +92,12 @@ def handle_message(event):
     except:
         info_id = {}
         info = {id: info_id}
-
+    global mode
     if mode == 1:
         replyList = ['未出貨', '配送中', '已送達']
         content = random.choice(replyList)
         text_reply(content, event)
+        mode = 0
 
     if get_message[0] in ['?', '？'] or get_message.isdigit():  # 比價用
         start = time.time()
@@ -375,6 +376,7 @@ price回傳時間<6秒
             s += "\n"
         print(s)
         text_reply(s, event)
+        global mode
         mode = 1
 
     elif data == 'A&func1&func1':
