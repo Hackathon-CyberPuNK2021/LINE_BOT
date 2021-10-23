@@ -718,7 +718,7 @@ def database_search(name, type=1):
         product = {}
         if item[2] == name:
             product = {
-                "link": item[0],
+                "link": str(item[0]),
                 "name": name,
                 "price": str(item[5])
             }
