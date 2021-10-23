@@ -43,6 +43,7 @@ def pchome_search(keyword, page, sort='有貨優先'):
 
 
 def pchome(id, name, page):
+    limit = 5
     try:
         with open("products_info_pchome.json") as file:
             products_info = json.load(file)
@@ -90,6 +91,7 @@ def momo_search(name, page, Type=1):
 
 
 def momo(id, name, page):
+    limit = 5
     try:
         with open("products_info_momo.json") as file:
             products_info = json.load(file)
@@ -160,6 +162,7 @@ def shopee_search(name, page, order="desc", by="relevancy"):
 
 
 def shopee(id, name, page):
+    limit = 5
     try:
         with open("products_info_shopee.json") as file:
             products_info = json.load(file)
@@ -186,6 +189,7 @@ def shopee(id, name, page):
 
 
 def price(id, name, page, sort):
+    limit = 5
     pc = {"lth": "價錢由低至高", "htl": "價錢由高至低"}
     mo = {"lth": 2, "htl": 3}
     sh = {"lth": "asc", "htl": "desc"}
@@ -237,4 +241,4 @@ def search(id, info, page=1):
     elif info["platform"] == "price2":
         return price(id, info["search_name"], page, "htl")
     else:
-        return Except
+        return """無法搜尋到商品，請確認輸入是否有誤～"""

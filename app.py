@@ -82,11 +82,9 @@ def handle_message(event):
         text_reply(content, event)
 
     elif get_message[0] == '?' or get_message[0] == '？':
-        mode_off = """機器人目前測試中
-        請稍後再使用
+        mode_off = """機器人目前測試中，請稍後再使用
         輸入help可查詢使用方式及新增功能"""
-        Except = """無法搜尋到商品
-        請確認輸入是否有誤～"""
+        Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         limit = 5
         start = time.time()
         text = get_message[1:].rstrip().strip()
