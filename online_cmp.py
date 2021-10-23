@@ -710,9 +710,9 @@ def database_search(name, type=1):
     postgres_select_query = f"""SELECT * FROM product"""
     cursor.execute(postgres_select_query)
     items = cursor.fetchall()
-    print(items)
     products = []
     for item in items:
+        print(item[2])
         product = {}
         if item[2] == name:
             product = {
