@@ -1,10 +1,5 @@
 from __future__ import unicode_literals, with_statement
-import json
-import requests
-import re
-import urllib
-import contextlib
-import time
+import json, requests, re, urllib, time, psycopg2
 from urllib.parse import urlencode
 from urllib.request import urlopen
 from emoji import UNICODE_EMOJI
@@ -16,13 +11,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendM
 
 
 def bubble_reload(nameList, priceList, urlList):
-    for i in range(10):
-        print(nameList[i])
-        print(f"${priceList[i]}")
-        print(urlList[i])
-    print(len(nameList))
-    print(len(priceList))
-    print(len(urlList))
     bubble = {
         "type": "carousel",
         "contents": [
@@ -584,16 +572,13 @@ def pchome(nameList, priceList, urlList, id, name, page):
         with open("products_info_pchome.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]["products"]
+                products = products_info[id]
             except:
                 products = []
-                products_info[id]["products"] = products
+                products_info[id] = products
     except:
         products = []
-        products_info = {id: {"name": name, "products": products}}
-    if products_info[id]["name"] != name:
-        products = []
-        products_info = {id: {"name": name, "products": products}}
+        products_info = {id: products}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += pchome_search(name, pages)
@@ -632,16 +617,13 @@ def momo(nameList, priceList, urlList, id, name, page):
         with open("products_info_momo.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]["products"]
+                products = products_info[id]
             except:
                 products = []
-                products_info[id]["products"] = products
+                products_info[id] = products
     except:
         products = []
-        products_info = {id: {"name": name, "products": products}}
-    if products_info[id]["name"] != name:
-        products = []
-        products_info = {id: {"name": name, "products": products}}
+        products_info = {id: products}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += momo_search(name, pages)
@@ -703,16 +685,13 @@ def shopee(nameList, priceList, urlList, id, name, page):
         with open("products_info_shopee.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]["products"]
+                products = products_info[id]
             except:
                 products = []
-                products_info[id]["products"] = products
+                products_info[id] = products
     except:
         products = []
-        products_info = {id: {"name": name, "products": products}}
-    if products_info[id]["name"] != name:
-        products = []
-        products_info = {id: {"name": name, "products": products}}
+        products_info = {id: products}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += shopee_search(name, pages)
@@ -723,12 +702,55 @@ def shopee(nameList, priceList, urlList, id, name, page):
         priceList.append(products[i]["price"])
         urlList.append(products[i]["link"])
 
+def database_search(name, type = 1):
+    url = "postgres://xseaswlvhvhgnm:a6383e19f7ab5a17b0b89671e2d8c363ce18a229550faaac57d61058e8269929@ec2-34-233-64-238.compute-1.amazonaws.com:5432/de3mlq5i95dhst"
+    conn = psycopg2.connect(url, sslmode='require')
+    cursor = conn.cursor()
+    postgres_select_query = f"""SELECT * FROM product"""
+    cursor.execute(postgres_select_query)
+    items = cursor.fetchall()
+    products = []
+    for item in items:
+        if item[2] == name:
+            products.append({
+                "link": item[0],
+                "name": name,
+                "price": "$" + str(item[5])
+            })
+        if type in (2, 3):
+            products[-1]["price_avg"] = int(item[5])
+    return products
+
+def database(nameList, priceList, urlList, id, name, page):
+    limit = 10
+    try:
+        with open("products_info_database.json") as file:
+            products_info = json.load(file)
+            try:
+                products = products_info[id]["products"]
+            except:
+                products = []
+                products_info[id]["products"] = products
+    except:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
+    products = database_search(name)
+    with open("products_info_shopee.json", "w") as file:
+        json.dump(products_info, file)
+    for i in range(limit*(page-1), limit*page):
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 def price(nameList, priceList, urlList, id, name, page, sort):
     limit = 10
     pc = {"lth": "價錢由低至高", "htl": "價錢由高至低"}
     mo = {"lth": 2, "htl": 3}
     sh = {"lth": "asc", "htl": "desc"}
+    da = {"lth": 2, "htl": 3}
     try:
         with open("products_info_price.json") as file:
             products_info = json.load(file)
@@ -745,6 +767,7 @@ def price(nameList, priceList, urlList, id, name, page, sort):
         products += pchome_search(name, pages, pc[sort])
         products += momo_search(name, pages, mo[sort])
         products += shopee_search(name, pages, sh[sort], "price")
+        products += momo_search(name, da[sort])
     products = sorted(products, key=lambda d: d["price_avg"])
     if sort == "htl":
         products.reverse()
@@ -755,12 +778,14 @@ def price(nameList, priceList, urlList, id, name, page, sort):
         urlList.append(products[i]["link"])
         if "pchome" in products[i]["link"]:
             name = "〈PChome〉" + products[i]["name"]
-            nameList.append(name)
+        elif "momo" in products[i]["link"]:
+            name = "〈MOMO〉" + products[i]["name"]
+        elif products[i]["link"].isdigit():
+            name = "〈Database〉" + products[i]["name"]
         else:
             name = "〈Shopee〉" + products[i]["name"]
-            nameList.append(name)
+        nameList.append(name)
         priceList.append(products[i]["price"])
-
 
 def search(id, info, page=1):
     nameList = []

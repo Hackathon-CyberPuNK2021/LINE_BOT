@@ -12,10 +12,17 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
 
-def bubble_reload():
+def bubble_reload(nameList, priceList, urlList):
+    for i in range(10):
+        print(nameList[i])
+        print(f"${priceList[i]}")
+        print(urlList[i])
+    print(len(nameList))
+    print(len(priceList))
+    print(len(urlList))
     bubble = {
         "type": "carousel",
         "contents": [
@@ -33,7 +40,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[0],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -43,7 +50,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[0]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -63,7 +70,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri":  urlList[0]
                             }
                         }
                     ]
@@ -83,7 +90,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[1],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -93,7 +100,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[1]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -113,7 +120,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[1]
                             }
                         }
                     ]
@@ -133,7 +140,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[2],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -143,7 +150,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[2]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -163,7 +170,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[2]
                             }
                         }
                     ]
@@ -183,7 +190,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[3],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -193,7 +200,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[3]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -213,7 +220,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[3]
                             }
                         }
                     ]
@@ -233,7 +240,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[4],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -243,7 +250,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[4]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -263,7 +270,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[4]
                             }
                         }
                     ]
@@ -283,7 +290,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[5],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -293,7 +300,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[5]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -313,7 +320,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[5]
                             }
                         }
                     ]
@@ -333,7 +340,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[6],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -343,7 +350,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[6]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -363,7 +370,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[6]
                             }
                         }
                     ]
@@ -383,7 +390,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[7],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -393,7 +400,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[7]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -413,7 +420,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[7]
                             }
                         }
                     ]
@@ -433,7 +440,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[8],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -443,7 +450,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[8]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -463,7 +470,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[8]
                             }
                         }
                     ]
@@ -483,7 +490,7 @@ def bubble_reload():
                         },
                         {
                             "type": "text",
-                            "text": "爬蟲商品名稱",
+                            "text": nameList[9],
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -493,7 +500,7 @@ def bubble_reload():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "$商品價格",
+                                    "text": f"${priceList[9]}",
                                     "weight": "bold",
                                     "size": "xl",
                                     "flex": 0
@@ -513,7 +520,7 @@ def bubble_reload():
                             "action": {
                                 "type": "uri",
                                 "label": "商品連結",
-                                "uri": "http://linecorp.com/"
+                                "uri": urlList[9]
                             }
                         }
                     ]
@@ -541,6 +548,7 @@ def bubble_reload():
             }
         ]
     }
+    return bubble
 
 
 def make_tiny(url):
@@ -570,31 +578,31 @@ def pchome_search(keyword, page, sort='有貨優先'):
     return products
 
 
-def pchome(id, name, page):
+def pchome(nameList, priceList, urlList, id, name, page):
     limit = 10
     try:
         with open("products_info_pchome.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += pchome_search(name, pages)
     with open("products_info_pchome.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 # MOMO線上購物 爬蟲
 
@@ -618,31 +626,31 @@ def momo_search(name, page, Type=1):
     return products
 
 
-def momo(id, name, page):
+def momo(nameList, priceList, urlList, id, name, page):
     limit = 10
     try:
         with open("products_info_momo.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += momo_search(name, pages)
     with open("products_info_momo.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + products[i]["price"] + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 
 # Shopee線上購物 爬蟲
@@ -689,34 +697,34 @@ def shopee_search(name, page, order="desc", by="relevancy"):
     return products
 
 
-def shopee(id, name, page):
+def shopee(nameList, priceList, urlList, id, name, page):
     limit = 10
     try:
         with open("products_info_shopee.json") as file:
             products_info = json.load(file)
             try:
-                products = products_info[id]
+                products = products_info[id]["products"]
             except:
                 products = []
-                products_info[id] = products
+                products_info[id]["products"] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += shopee_search(name, pages)
     with open("products_info_shopee.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 
-def price(id, name, page, sort):
+def price(nameList, priceList, urlList, id, name, page, sort):
     limit = 10
     pc = {"lth": "價錢由低至高", "htl": "價錢由高至低"}
     mo = {"lth": 2, "htl": 3}
@@ -742,17 +750,16 @@ def price(id, name, page, sort):
         products.reverse()
     with open("products_info_price.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
         print("i:", i)
-        message += products[i]["link"] + "\n"
+        urlList.append(products[i]["link"])
         if "pchome" in products[i]["link"]:
-            message += "〈PChome〉" + products[i]["name"] + "\n"
+            name = "〈PChome〉" + products[i]["name"]
+            nameList.append(name)
         else:
-            message += "〈Shopee〉" + products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+            name = "〈Shopee〉" + products[i]["name"]
+            nameList.append(name)
+        priceList.append(products[i]["price"])
 
 
 def search(id, info, page=1):
@@ -762,14 +769,22 @@ def search(id, info, page=1):
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
-        return pchome(id, info["search_name"], page)
+        pchome(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "momo":
-        return momo(id, info["search_name"], page)
+        momo(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] in ("shopee", "蝦皮"):
-        return shopee(id, info["search_name"], page)
+        shopee(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price1":
-        return price(id, info["search_name"], page, "lth")
+        price(nameList, priceList, urlList, id,
+              info["search_name"], page, "lth")
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price2":
-        return price(id, info["search_name"], page, "htl")
+        price(nameList, priceList, urlList, id,
+              info["search_name"], page, "htl")
+        return bubble_reload(nameList, priceList, urlList)
     else:
-        return """無法搜尋到商品，請確認輸入是否有誤～"""
+        return -1
+        # """無法搜尋到商品，請確認輸入是否有誤～"""
