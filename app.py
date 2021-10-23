@@ -98,12 +98,12 @@ def handle_message(event):
             text = get_message
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
-            Bubble = search(id, info_id, line_bot_api, event)
+            Bubble = search(id, info_id)
         elif "；" in text:
             info_id["search_name"], info_id["platform"] = text.split("；")
-            Bubble = search(id, info_id, line_bot_api, event)
+            Bubble = search(id, info_id)
         elif text.isdigit() == True:
-            Bubble = search(id, info_id, line_bot_api, event, int(text))
+            Bubble = search(id, info_id, int(text))
         with open("search_info.json", "w") as file:
             json.dump(info, file)
         if Bubble == -1:
