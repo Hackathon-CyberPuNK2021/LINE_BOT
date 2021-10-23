@@ -58,7 +58,7 @@ def handle_message(event):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
 
-    with open('setting.json', 'r', encoding='utf8') as jfile:  # 識別身分
+    with open('user.json', 'r', encoding='utf8') as jfile:  # 識別身分
         jdata = json.load(jfile)
     #file = open(fileName, "w")
     #json.dump(jsonString, file)
