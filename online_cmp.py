@@ -12,10 +12,10 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
 
 
-def bubble_reload(nameList, priceList, urlList):
+def bubble_reload(nameList, priceList, urlList, line_bot_api, event):
     bubble = {
         "type": "carousel",
         "contents": [
@@ -543,7 +543,7 @@ def bubble_reload(nameList, priceList, urlList):
     }
     interface = FlexSendMessage(
         alt_text='func2',  # 在聊天室外面看到的文字訊息
-        contents=Bubble
+        contents=bubble
     )
     line_bot_api.reply_message(event.reply_token, interface)
     return bubble
@@ -751,7 +751,7 @@ def price(nameList, priceList, urlList, id, name, page, sort):
         priceList.append(products[i]["price"])
 
 
-def search(id, info, page=1):
+def search(id, info, line_bot_api, event, page=1):
     nameList = []
     priceList = []
     urlList = []
@@ -759,21 +759,21 @@ def search(id, info, page=1):
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
         pchome(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, line_bot_api, event)
     elif info["platform"] == "momo":
         momo(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, line_bot_api, event)
     elif info["platform"] in ("shopee", "蝦皮"):
         shopee(nameList, priceList, urlList, id, info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, line_bot_api, event)
     elif info["platform"] == "price1":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "lth")
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, line_bot_api, event)
     elif info["platform"] == "price2":
         price(nameList, priceList, urlList, id,
               info["search_name"], page, "htl")
-        return bubble_reload(nameList, priceList, urlList)
+        return bubble_reload(nameList, priceList, urlList, line_bot_api, event)
     else:
         return -1
         # """無法搜尋到商品，請確認輸入是否有誤～"""

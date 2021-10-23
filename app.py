@@ -91,7 +91,6 @@ def handle_message(event):
         info = {id: info_id}
 
     if get_message[0] in ['?', '？'] or get_message.isdigit():  # 比價用
-        Except = """無法搜尋到商品，請確認輸入是否有誤～"""
         start = time.time()
         if get_message[0] in ['?', '？']:
             text = get_message[1:].lower().rstrip().strip()
@@ -99,14 +98,12 @@ def handle_message(event):
             text = get_message
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
-            Bubble = search(id, info_id)
+            Bubble = search(id, info_id, line_bot_api, event)
         elif "；" in text:
             info_id["search_name"], info_id["platform"] = text.split("；")
-            Bubble = search(id, info_id)
+            Bubble = search(id, info_id, line_bot_api, event)
         elif text.isdigit() == True:
-            Bubble = search(id, info_id, int(text))
-        else:
-            Bubble = Except
+            Bubble = search(id, info_id, line_bot_api, event, int(text))
         with open("search_info.json", "w") as file:
             json.dump(info, file)
         if Bubble == -1:
@@ -241,11 +238,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                        },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                        }
                     ],
                     "flex": 0
                 }
