@@ -125,7 +125,14 @@ def handle_message(event):
         text_reply(work, event)
         # print(type(d))
         id = 886
-        updateMember(id, d)
+        try:
+            updateMember(id, d)
+        except:
+            Except = """輸入錯誤！請按照以下格式
+上架:賣家暱稱;電話號碼;商品名稱;商品敘述;圖片網址;價格;商品數量;賣家地區
+(ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;900;商品數量;台北)
+            """
+            text_reply(Except, event)
         text_reply(work, event)
         updateProduct(id, d)
         finish = "上架完成！"
@@ -251,11 +258,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                                },
+                            },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                                }
+                            }
                     ],
                     "flex": 0
                 }
@@ -301,7 +308,9 @@ price回傳時間<6秒
         pass
     elif data == 'A&func1&func2':
         text = """<上架功能>
-請在開頭輸入「上架:」，商品相關資訊(ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;商品數量;台北)：
+請在開頭輸入「上架:」，商品相關資訊依序為:
+賣家暱稱;電話號碼;商品名稱;商品敘述;圖片網址;價格;商品數量;賣家地區
+(ex: 上架:王曉明;0911111450;兔子布偶;可愛ㄉ玩偶;圖片網址;900;商品數量;台北)
         """
         text_reply(text, event)
 
