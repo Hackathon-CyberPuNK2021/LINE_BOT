@@ -159,6 +159,7 @@ def handle_message(event):
     elif get_message == "下單":
         orderlist = orderCartProduct(id, cursor, conn)
         s = ''
+        print(orderlist)
         for i in orderlist:
             for j in i:
                 s += str(j)
