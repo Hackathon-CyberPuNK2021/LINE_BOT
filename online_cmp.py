@@ -742,9 +742,9 @@ def database(nameList, priceList, urlList, id, name, page):
         products = []
         products_info = {id: {"name": name, "products": products}}
     products = database_search(name)
+    print(products)
     with open("products_info_database.json", "w") as file:
         json.dump(products_info, file)
-    print(products[0])
     for i in range(limit*(page-1), limit*page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
