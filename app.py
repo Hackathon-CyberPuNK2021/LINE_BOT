@@ -104,6 +104,7 @@ def handle_message(event):
             Bubble = search(id, info_id)
         elif text.isdigit() == True:
             Bubble = search(id, info_id, int(text))
+        print(info)
         with open("search_info.json", "w") as file:
             json.dump(info, file)
         if Bubble == -1:
