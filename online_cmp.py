@@ -35,7 +35,8 @@ def bubble_reload(nameList, priceList, urlList):
                             "type": "text",
                             "text": nameList[0],
                             "weight": "bold",
-                            "size": "sm"
+                            "size": "sm",
+                            "wrap": true
                         },
                         {
                             "type": "box",
