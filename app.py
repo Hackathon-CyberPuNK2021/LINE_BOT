@@ -152,6 +152,8 @@ def handle_message(event):
                 string += str(j)
                 string += ','
             string += "\n"
+        if string == '':
+            string = '目前購物車沒有東西喔!'
         text_reply(string, event)
         conn.commit()
     elif get_message == "下單":
