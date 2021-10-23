@@ -15,6 +15,535 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 
+def bubble_reload(nameList, priceList, urlList):
+    bubble = {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[0],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[0]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri":  urlList[0]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[1],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[1]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[1]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[2],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[2]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[2]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[3],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[3]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[3]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[4],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[4]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[4]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[5],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[5]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[5]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[6],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[6]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[6]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[7],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[7]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[7]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[8],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[8]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": urlList[8]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "線上比價",
+                            "color": "#1DB446"
+                        },
+                        {
+                            "type": "text",
+                            "text": nameList[9],
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"${priceList[9]}",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "flex": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "secondary",
+                            "action": {
+                                "type": "uri",
+                                "label": "商品連結",
+                                "uri": f"${priceList[9]}"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "flex": 1,
+                            "gravity": "center",
+                            "action": {
+                                "type": "postback",
+                                "label": "瀏覽更多",
+                                "data": "瀏覽更多商品"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+    return bubble
+
+
 def make_tiny(url):
     request_url = "http://tinyurl.com/api-create.php?" + \
         urlencode({"url": url})
@@ -42,8 +571,8 @@ def pchome_search(keyword, page, sort='有貨優先'):
     return products
 
 
-def pchome(id, name, page):
-    limit = 5
+def pchome(nameList, priceList, urlList, id, name, page):
+    limit = 10
     try:
         with open("products_info_pchome.json") as file:
             products_info = json.load(file)
@@ -60,13 +589,10 @@ def pchome(id, name, page):
         products += pchome_search(name, pages)
     with open("products_info_pchome.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 # MOMO線上購物 爬蟲
 
@@ -90,8 +616,8 @@ def momo_search(name, page, Type=1):
     return products
 
 
-def momo(id, name, page):
-    limit = 5
+def momo(nameList, priceList, urlList, id, name, page):
+    limit = 10
     try:
         with open("products_info_momo.json") as file:
             products_info = json.load(file)
@@ -108,13 +634,10 @@ def momo(id, name, page):
         products += momo_search(name, pages)
     with open("products_info_momo.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + products[i]["price"] + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 
 # Shopee線上購物 爬蟲
@@ -161,8 +684,8 @@ def shopee_search(name, page, order="desc", by="relevancy"):
     return products
 
 
-def shopee(id, name, page):
-    limit = 5
+def shopee(nameList, priceList, urlList, id, name, page):
+    limit = 10
     try:
         with open("products_info_shopee.json") as file:
             products_info = json.load(file)
@@ -179,17 +702,14 @@ def shopee(id, name, page):
         products += shopee_search(name, pages)
     with open("products_info_shopee.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
-        message += products[i]["link"] + "\n"
-        message += products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+        nameList.append(products[i]["name"])
+        priceList.append(products[i]["price"])
+        urlList.append(products[i]["link"])
 
 
-def price(id, name, page, sort):
-    limit = 5
+def price(nameList, priceList, urlList, id, name, page, sort):
+    limit = 10
     pc = {"lth": "價錢由低至高", "htl": "價錢由高至低"}
     mo = {"lth": 2, "htl": 3}
     sh = {"lth": "asc", "htl": "desc"}
@@ -214,31 +734,40 @@ def price(id, name, page, sort):
         products.reverse()
     with open("products_info_price.json", "w") as file:
         json.dump(products_info, file)
-    message = ""
     for i in range(limit*(page-1), limit*page):
         print("i:", i)
-        message += products[i]["link"] + "\n"
+        urlList.append(products[i]["link"])
         if "pchome" in products[i]["link"]:
-            message += "〈PChome〉" + products[i]["name"] + "\n"
+            name = "〈PChome〉" + products[i]["name"]
+            nameList.append(name)
         else:
-            message += "〈Shopee〉" + products[i]["name"] + "\n"
-        message += "$" + str(products[i]["price"]) + "\n"
-    message += " " * 20 + f"[第{page}頁]"
-    return message
+            name = "〈Shopee〉" + products[i]["name"]
+            nameList.append(name)
+        priceList.append(products[i]["price"])
 
 
 def search(id, info, page=1):
+    nameList = []
+    priceList = []
+    urlList = []
     if len(info["platform"]) >= 6:
         info["platform"] = info["platform"][:6]
     if info["platform"] == "pchome":
-        return pchome(id, info["search_name"], page)
+        pchome(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "momo":
-        return momo(id, info["search_name"], page)
+        momo(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] in ("shopee", "蝦皮"):
-        return shopee(id, info["search_name"], page)
+        shopee(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price1":
-        return price(id, info["search_name"], page, "lth")
+        price(nameList, priceList, urlList, id,
+              info["search_name"], page, "lth")
+        return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "price2":
-        return price(id, info["search_name"], page, "htl")
+        price(nameList, priceList, urlList, id,
+              info["search_name"], page, "htl")
+        return bubble_reload(nameList, priceList, urlList)
     else:
         return """無法搜尋到商品，請確認輸入是否有誤～"""

@@ -20,6 +20,7 @@ from linebot.models import (MessageEvent,
 import os
 import random
 import json
+from linebot.models.flex_message import BubbleStyle
 import psycopg2
 import requests
 import urllib
@@ -98,20 +99,24 @@ def handle_message(event):
             text = get_message
         if ";" in text:
             info_id["search_name"], info_id["platform"] = text.split(";")
-            message = search(id, info_id)
+            Bubble = search(id, info_id)
         elif "；" in text:
             info_id["search_name"], info_id["platform"] = text.split("；")
-            message = search(id, info_id)
-        elif get_message.isdigit() == True:
-            message = search(id, info_id, int(text))
+            Bubble = search(id, info_id)
         elif text.isdigit() == True:
-            message = search(id, info_id, int(text))
+            Bubble = search(id, info_id, int(text))
         else:
-            message = Except
+            Bubble = Except
         with open("search_info.json", "w") as file:
             json.dump(info, file)
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text=message))
+        if Bubble == -1:
+            text_reply("無法搜尋到商品，請確認輸入是否有誤～", event)
+        else:
+            interface = FlexSendMessage(
+                alt_text='func2',  # 在聊天室外面看到的文字訊息
+                contents=Bubble
+            )
+            line_bot_api.reply_message(event.reply_token, interface)
         end = time.time()
         print("time:", end - start, "s")
         pass
@@ -119,7 +124,8 @@ def handle_message(event):
         if get_message.upper()[:2] == 'HI':
             interface = FlexSendMessage(
                 alt_text='Hi',  # 在聊天室外面看到的文字訊息
-                contents={  # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
+                # flex介面 到這邊手刻:https://developers.line.biz/flex-simulator/?status=success
+                contents={
                     "type": "bubble",
                     "hero": {
                         "type": "image",
@@ -235,11 +241,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                                },
+                            },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                                }
+                            }
                     ],
                     "flex": 0
                 }
@@ -248,7 +254,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, interface)
     elif data == 'A&func2':
         text = """【比價功能】
-請輸入： 商品名稱;price1/price2
+請輸入： ?商品名稱;price1/price2
 (英文請輸入半型)
 price1：從最低價開始排
 price2：從最高價開始排
@@ -257,7 +263,7 @@ Ex:  PS5;price1 、 滑鼠；Price2
 
 【搜尋功能】  
 若想在 pchome/momo/shopee 搜尋商品
-請輸入：  商品名稱;平台 
+請輸入：  ?商品名稱;平台 
 (英文請輸入半型)
 Ex:  PS5;pchome 、 滑鼠；MOMO
 要看下一頁則輸入2 3 4 5....
