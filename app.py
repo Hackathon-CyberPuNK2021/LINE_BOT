@@ -135,7 +135,7 @@ def handle_message(event):
                 quantity = 1
         except:
             quantity = 1
-        if orderCart(productNumber, id, quantity) == False:
+        if orderCart(productNumber, id, quantity, cursor, conn) == False:
             qq = "已售完QQ"
             text_reply(qq, event)
         else:
