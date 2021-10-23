@@ -139,7 +139,7 @@ def handle_message(event):
             qq = "已售完QQ"
             text_reply(qq, event)
         else:
-            finish_ = "已放入購物車！\n若要查看購物車請輸入\"查看購物車\"，若要下訂單請輸入\"下單\""
+            finish_ = "已放入購物車！\n若要檢視購物車請輸入\"查看購物車\"，若要下訂單請輸入\"下單\""
             text_reply(finish_, event)
         conn.commit()
     elif get_message == "查看購物車":
@@ -162,6 +162,7 @@ def handle_message(event):
                 s += str(j)
                 s += ","
             s += "\n"
+        s -= "\n"
         buy = "已完成下單！您的訂單內容為："+s
         text_reply(buy, event)
         conn.commit()
@@ -303,11 +304,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                            },
+                        },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                            }
+                        }
                     ],
                     "flex": 0
                 }
