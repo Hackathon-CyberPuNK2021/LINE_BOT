@@ -721,8 +721,7 @@ def database_search(name, type=1):
             }
         if type in (2, 3):
             product["price_avg"] = int(item[5])
-            products.append(product)
-    print(products)
+        products.append(product)
     return products
 
 
