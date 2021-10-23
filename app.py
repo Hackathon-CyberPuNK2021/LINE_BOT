@@ -76,30 +76,31 @@ def handle_message(event):
     id = event.source.user_id  # 獲取使用者ID
     print(id)
     get_message = event.message.text.rstrip().strip()  # 刪除回應裡左右的多餘空格
-    if get_message[0] == '#':
+
+    try:
+        with open("search_info.json") as file:
+            info = json.load(file)
+            try:
+                info_id = info[id]
+            except:
+                info_id = {}
+                info[id] = info_id
+    except:
+        info_id = {}
+        info = {"mode_off": False, id: info_id}
+
+    if get_message[0] == '#':  # 資料庫搜尋
         get_message = get_message[1:].rstrip().strip()
         content = '您要購買的是 '+get_message
         text_reply(content, event)
 
-    elif get_message[0] == '?' or get_message[0] == '？':
+    elif get_message[0] == '?' or get_message[0] == '？' or get_message.isdigit():  # 比價用
         mode_off = """機器人目前測試中，請稍後再使用
         輸入help可查詢使用方式及新增功能"""
         Except = """無法搜尋到商品，請確認輸入是否有誤～"""
-        limit = 5
         start = time.time()
         text = get_message[1:].rstrip().strip()
         id_developer = "U1e38384f12f22c77281ec3e8611025c8"
-        try:
-            with open("search_info.json") as file:
-                info = json.load(file)
-                try:
-                    info_id = info[id]
-                except:
-                    info_id = {}
-                    info[id] = info_id
-        except:
-            info_id = {}
-            info = {"mode_off": False, id: info_id}
         if info["mode_off"] and id != id_developer:
             message = mode_off
         elif ";" in text:
@@ -108,6 +109,8 @@ def handle_message(event):
         elif "；" in text:
             info_id["search_name"], info_id["platform"] = text.split("；")
             message = search(id, info_id)
+        elif get_message.isdigit() == True:
+            message = search(id, info_id, int(text))
         elif text.isdigit() == True:
             message = search(id, info_id, int(text))
         elif text == "mode off" and id == id_developer:
@@ -247,11 +250,11 @@ def handle_postback(event):
                                     "label": "我要上架商品",
                                     "data": "A&func1&func2"
                                 }
-                                },
+                            },
                         {
                                 "type": "spacer",
                                 "size": "sm"
-                                }
+                            }
                     ],
                     "flex": 0
                 }
@@ -264,7 +267,32 @@ def handle_postback(event):
     elif data == 'A&func3':
         text_reply(data, event)
     elif data == 'A&func1&func1':
-        text_reply('請輸入商品關鍵字(請在開頭打「#」 ex: #耳機、#馬克杯...)：', event)
+        text = """【搜尋功能】
+        若想在 pchome/momo/shopee 搜尋商品
+        請輸入：  商品名稱;平台 
+        (英文請輸入半型)
+        Ex:  PS5;pchome 、 滑鼠；MOMO
+        要看下一頁則輸入2 3 4 5....
+
+        【比價功能】
+        請輸入： 商品名稱;price1/price2
+        (英文請輸入半型)
+        price1：從最低價開始排
+        price2：從最高價開始排
+        Ex:  PS5;price1 、 滑鼠；Price2
+        要看下一頁則輸入2 3 4 5....
+
+
+        【注意】
+        pchome回傳時間<3秒
+        momo回傳時間<3秒
+        shopee回傳時間<4秒
+        price回傳時間<6秒
+
+        ------------------------------
+        請輸入商品關鍵字(請在開頭打「#」 ex: #耳機、#馬克杯...)：
+        """
+        text_reply(text, event)
         pass
     elif data == 'A&func1&func2':
         pass
