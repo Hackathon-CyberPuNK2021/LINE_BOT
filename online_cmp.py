@@ -1,7 +1,6 @@
 from __future__ import unicode_literals, with_statement
 import json
 import requests
-import re
 import urllib
 import time
 import psycopg2
@@ -13,6 +12,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
+import contextlib
 
 
 def bubble_reload(nameList, priceList, urlList):
