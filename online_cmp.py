@@ -726,18 +726,17 @@ def database_search(name, type=1):
         product = {}
         if item[2] == name:
             product = {
-                "link": '#'+str(item[0]),
+                "link": item[0],
                 "name": name,
-                "price": str(item[5])
+                "price": "$" + str(item[5])
             }
         if type in (2, 3):
             product["price_avg"] = int(item[5])
-        if product != {}:
             products.append(product)
     return products
 
 
-def database(nameList, priceList, urlList, numList, id, name, page):
+def database(nameList, priceList, urlList, id, name, page=1):
     limit = 10
     try:
         with open("products_info_database.json") as file:
@@ -754,14 +753,12 @@ def database(nameList, priceList, urlList, numList, id, name, page):
         products = []
         products_info = {id: {"name": name, "products": products}}
     products = database_search(name)
-    print(products)
     with open("products_info_database.json", "w") as file:
         json.dump(products_info, file)
     for i in range(limit*(page-1), limit*page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
-        urlList.append("https://linecorp.com")
-        numList.append(products[i]["link"])
+        urlList.append(products[i]["link"])
 
 
 def price(nameList, priceList, urlList, id, name, page, sort):
