@@ -791,8 +791,6 @@ def price(nameList, priceList, urlList, id, name, page, sort):
             name = "〈PChome〉" + products[i]["name"]
         elif "momo" in products[i]["link"]:
             name = "〈MOMO〉" + products[i]["name"]
-        elif products[i]["link"].isdigit():
-            name = "〈Database〉" + products[i]["name"]
         else:
             name = "〈Shopee〉" + products[i]["name"]
         nameList.append(name)
