@@ -556,7 +556,6 @@ def isEmoji(content):
     return False
 
 
-# PChome線上購物 爬蟲
 def pchome_search(keyword, page, sort='有貨優先'):
     all_sort = {'有貨優先': 'sale/dc', '價錢由高至低': 'prc/dc', '價錢由低至高': 'prc/ac'}
     name_enc = urllib.parse.quote(keyword)
@@ -581,7 +580,10 @@ def pchome(nameList, priceList, urlList, id, name, page):
                 products_info[id] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += pchome_search(name, pages)
@@ -626,7 +628,10 @@ def momo(nameList, priceList, urlList, id, name, page):
                 products_info[id] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += momo_search(name, pages)
@@ -694,7 +699,10 @@ def shopee(nameList, priceList, urlList, id, name, page):
                 products_info[id] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = {id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += shopee_search(name, pages)
@@ -718,18 +726,17 @@ def database_search(name, type=1):
         product = {}
         if item[2] == name:
             product = {
-                "link": '#'+str(item[0]),
+                "link": item[0],
                 "name": name,
-                "price": str(item[5])
+                "price": "$" + str(item[5])
             }
         if type in (2, 3):
             product["price_avg"] = int(item[5])
-        if product != {}:
             products.append(product)
     return products
 
 
-def database(nameList, priceList, urlList, numList, id, name, page):
+def database(nameList, priceList, urlList, id, name, page=1):
     limit = 10
     try:
         with open("products_info_database.json") as file:
@@ -746,14 +753,12 @@ def database(nameList, priceList, urlList, numList, id, name, page):
         products = []
         products_info = {id: {"name": name, "products": products}}
     products = database_search(name)
-    print(products)
     with open("products_info_database.json", "w") as file:
         json.dump(products_info, file)
     for i in range(limit*(page-1), limit*page):
         nameList.append(products[i]["name"])
         priceList.append(products[i]["price"])
-        urlList.append("https://linecorp.com")
-        numList.append(products[i]["link"])
+        urlList.append(products[i]["link"])
 
 
 def price(nameList, priceList, urlList, id, name, page, sort):
@@ -772,7 +777,11 @@ def price(nameList, priceList, urlList, id, name, page, sort):
                 products_info[id] = products
     except:
         products = []
-        products_info = {id: products}
+        products_info = products_info = {
+            id: {"name": name, "products": products}}
+    if products_info[id]["name"] != name:
+        products = []
+        products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
         products += pchome_search(name, pages, pc[sort])
@@ -791,8 +800,8 @@ def price(nameList, priceList, urlList, id, name, page, sort):
             name = "〈PChome〉" + products[i]["name"]
         elif "momo" in products[i]["link"]:
             name = "〈MOMO〉" + products[i]["name"]
-       # elif products[i]["link"].isdigit():
-           # name = "〈Database〉" + products[i]["name"]
+        # elif products[i]["link"].isdigit():
+        #    name = "〈Database〉" + products[i]["name"]
         else:
             name = "〈Shopee〉" + products[i]["name"]
         nameList.append(name)
@@ -803,8 +812,9 @@ def search(id, info, page=1):
     nameList = []
     priceList = []
     urlList = []
-    numList = []
-    if info["platform"][:6] == "pchome":
+    if len(info["platform"]) >= 6:
+        info["platform"] = info["platform"][:6]
+    if info["platform"] == "pchome":
         pchome(nameList, priceList, urlList, id, info["search_name"], page)
         return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "momo":
@@ -822,9 +832,8 @@ def search(id, info, page=1):
               info["search_name"], page, "htl")
         return bubble_reload(nameList, priceList, urlList)
     elif info["platform"] == "database":
-        database(nameList, priceList, urlList, numList, id,
-                 info["search_name"], page)
-        return bubble_reload(nameList, priceList, urlList, numList)
+        database(nameList, priceList, urlList, id, info["search_name"], page)
+        return bubble_reload(nameList, priceList, urlList)
     else:
         return -1
         # """無法搜尋到商品，請確認輸入是否有誤～"""
