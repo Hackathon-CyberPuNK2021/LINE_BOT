@@ -634,7 +634,7 @@ def momo(nameList, priceList, urlList, id, name, page):
         products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
-        products += momo_search(name, pages)
+        products.append(momo_search(name, pages))
     with open("products_info_momo.json", "w") as file:
         json.dump(products_info, file)
     for i in range(limit*(page-1), limit*page):
@@ -705,7 +705,7 @@ def shopee(nameList, priceList, urlList, id, name, page):
         products_info = {id: {"name": name, "products": products}}
     pages = ((page - 1) * limit) // 20 + 1
     if (page == 1 and products == []) or len(products) < page * limit:
-        products += shopee_search(name, pages)
+        products.append(shopee_search(name, pages))
     with open("products_info_shopee.json", "w") as file:
         json.dump(products_info, file)
     for i in range(limit*(page-1), limit*page):
