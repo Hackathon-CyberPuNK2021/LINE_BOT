@@ -120,7 +120,7 @@ def checkCart(id, cursor):
 # 下單
 
 
-def orderCartProduct(id, cursor):
+def orderCartProduct(id, cursor, conn):
     # 從ID找用戶代碼
     cursor.execute(
         "SELECT \"memberNumber\" From member WHERE \"lineID\" = '%s'" % str(id))
@@ -175,13 +175,14 @@ def orderCartProduct(id, cursor):
         cursor.execute('INSERT INTO "orderInfo" VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);', (orderNum, orderTime,
                        productQuantity, None, True, orderDate, lst2[i], lst_productNumber[i], memberNum, lst_productName[i]))
         print('happy')
-        printlist.append([orderNum, orderTime, productQuantity, None, True, orderDate,
+        printlist.append([orderNum, orderTime, productQuantity, orderDate,
                          lst2[i], lst_productNumber[i], memberNum, lst_productName[i]])
         orderNum += 1
     # 清空購物車
     for i in lst_productNumber:
         cursor.execute(
             'UPDATE "orderCart" SET "productState" = false WHERE "productNumber" = %s' % int(i))
+    conn.commit()
     return printlist
 
 
