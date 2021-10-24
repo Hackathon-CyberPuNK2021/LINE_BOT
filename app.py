@@ -171,7 +171,6 @@ def handle_message(event):
                 s += str(j)
                 s += ","
             s += "\n"
-        s -= "\n"
         buy = "已完成下單！您的訂單內容為："+s
         text_reply(buy, event)
         conn.commit()
