@@ -778,7 +778,7 @@ def price(nameList, priceList, urlList, id, name, page, sort):
         products += pchome_search(name, pages, pc[sort])
         products += momo_search(name, pages, mo[sort])
         products += shopee_search(name, pages, sh[sort], "price")
-        products += database_search(name, da[sort])
+        #products += database_search(name, da[sort])
     products = sorted(products, key=lambda d: d["price_avg"])
     if sort == "htl":
         products.reverse()
@@ -791,6 +791,8 @@ def price(nameList, priceList, urlList, id, name, page, sort):
             name = "〈PChome〉" + products[i]["name"]
         elif "momo" in products[i]["link"]:
             name = "〈MOMO〉" + products[i]["name"]
+       # elif products[i]["link"].isdigit():
+           # name = "〈Database〉" + products[i]["name"]
         else:
             name = "〈Shopee〉" + products[i]["name"]
         nameList.append(name)
