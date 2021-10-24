@@ -161,8 +161,8 @@ def handle_message(event):
         text_reply(string, event)
         conn.commit()
     elif get_message == "下單":
-        buy = "已完成下單！"
-        text_reply(buy, event)
+        #buy = "已完成下單！"
+        #text_reply(buy, event)
         orderlist = orderCartProduct(id, cursor, conn)
         s = ''
         print(orderlist)
